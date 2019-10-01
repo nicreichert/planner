@@ -4,7 +4,9 @@ import { PickerProps } from 'react-native-picker-select';
 import styled, { css } from 'styled-components';
 import { space, SpaceProps } from 'styled-system';
 import { colors } from '../../../constants/theme';
+import { SmallText } from '../Typography';
 import { Checkbox, CheckboxInterface } from './components/Checkbox';
+import { NumberInput, NumberInterface } from './components/Number';
 import { Picker, PickerInterface } from './components/Picker';
 import { Text, TextInterface } from './components/Text';
 import { InputType } from './types';
@@ -22,7 +24,7 @@ const Wrapper = styled(View)<SpaceProps & { picker?: boolean }>`
     picker &&
     css`
       justify-content: flex-end;
-      padding-bottom: 10px;
+      padding-bottom: 5px;
     `}
 
   ${space};
@@ -32,7 +34,7 @@ const Spacer = styled(View)<SpaceProps>`
   ${space};
 `;
 
-type InputTypes = TextInterface | PickerInterface | CheckboxInterface;
+type InputTypes = TextInterface | PickerInterface | CheckboxInterface | NumberInterface;
 
 interface BaseProps extends SpaceProps {
   type: InputType;
@@ -52,10 +54,13 @@ export const Input: React.FC<Props> = ({ type, label, ...rest }) => {
 
   return (
     <Wrapper picker={type === InputType.PICKER}>
+      {label && <SmallText>{label}</SmallText>}
       {(() => {
         switch (type) {
           case InputType.PICKER:
             return <Picker {...(rest as PickerProps)} />;
+          case InputType.NUMBER:
+            return <NumberInput {...(rest as NumberInterface)} />;
           default:
             return <Text {...(rest as TextInputProps)} />;
         }

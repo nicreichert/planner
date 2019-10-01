@@ -1,11 +1,6 @@
 const fs = require('fs');
 const { join } = require('path');
 
-// if (process.argv.length === 2) {
-//   console.error('Expected at least one argument!');
-//   process.exit(1);
-// }
-
 const getDirectories = source =>
   fs
     .readdirSync(source)

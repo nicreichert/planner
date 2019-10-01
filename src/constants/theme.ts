@@ -4,7 +4,8 @@ export const colors2 = {
 
   accent: '#a30506', // red
 
-  disabled: '#b6babf', // light gray
+  // disabled: '#b6babf', // light gray
+  disabled: '#ddd', // light gray
 
   white: '#fff',
   black: '#000',
@@ -21,7 +22,8 @@ export const colors = {
 
   accent: '#C4E7D4', // red
 
-  disabled: '#998DA0', // light gray
+  // disabled: '#998DA0', // light gray
+  disabled: '#ddd', // light gray
 
   white: '#fff',
   black: '#000',

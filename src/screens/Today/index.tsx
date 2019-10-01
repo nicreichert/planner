@@ -1,14 +1,14 @@
 import moment, { Moment } from 'moment';
 import * as React from 'react';
 import uuid from 'uuid';
-import { Button } from '../../components';
-import { ScreenWrapper } from '../../components/atoms/Screen';
+import { Icon, IconType, LargeText, MediumText, ScreenWrapper } from '../../components/atoms';
 import { TaskList } from '../../components/particles/TaskList';
 import { WeekBar } from '../../components/particles/WeekBar';
+import { colors } from '../../constants/theme';
 import { taskContainer } from '../../data/tasks';
 import { Navigation, Shift } from '../../types';
 import { getDeltaWeeksFromDate, getWeek, isInPast } from '../../utils';
-import { DayText, YourPlansText } from './styled';
+import { AddTaskButton } from './styled';
 
 setTimeout(() => {
   return;
@@ -16,11 +16,44 @@ setTimeout(() => {
     id: uuid(),
     completed: [] as Array<Moment>,
     date: moment(),
-    name: 'Do stuff',
+    name: 'First Task',
     repetitions: 0,
+    completedRepetitions: 0,
     shift: Shift.MORNING,
-    recurrencyType: 'Daily',
+    recurrencyType: 'TIMES_PER_WEEK',
     recurrency: 3,
+  });
+  taskContainer.addTask({
+    id: uuid(),
+    completed: [] as Array<Moment>,
+    date: moment(),
+    name: 'Second morning Task',
+    repetitions: 0,
+    completedRepetitions: 0,
+    shift: Shift.MORNING,
+    recurrencyType: 'TIMES_PER_WEEK',
+    recurrency: 3,
+  });
+  taskContainer.addTask({
+    id: uuid(),
+    completed: [] as Array<Moment>,
+    date: moment().add(200, 'seconds'),
+    name: 'Second Task',
+    repetitions: 3,
+    completedRepetitions: 0,
+    shift: Shift.AFTERNOON,
+    recurrencyType: 'NONE',
+  });
+  taskContainer.addTask({
+    id: uuid(),
+    completed: [] as Array<Moment>,
+    date: moment().add(400, 'seconds'),
+    name: 'Third Task',
+    repetitions: 3,
+    completedRepetitions: 0,
+    shift: Shift.EVENING,
+    recurrencyType: 'WEEK_DAYS',
+    recurrency: ['Mon', 'Wed', 'Fri'],
   });
 }, 1000);
 
@@ -44,15 +77,13 @@ export const Today: React.FC<Navigation> = ({ navigation }) => {
         onSwipeRight={() => handleChangeWeek(-1)}
       />
       <ScreenWrapper>
-        <YourPlansText>{isInPast(activeDay) ? 'What you did on' : 'Your plans for'}</YourPlansText>
-        <DayText>{activeDay.format('MMMM Do')}</DayText>
+        <MediumText>{isInPast(activeDay) ? 'What you did on' : 'Your plans for'}</MediumText>
+        <LargeText>{activeDay.format('MMMM Do')}</LargeText>
         <TaskList activeDay={activeDay} />
-        <Button
-          mt={20}
-          onPress={() => navigation.navigate('CreateTaskModal')}
-          label="Create Task"
-        />
       </ScreenWrapper>
+      <AddTaskButton onPress={() => navigation.navigate('CreateTaskModal', { activeDay })}>
+        <Icon type={IconType.PLUS} color={colors.primary} />
+      </AddTaskButton>
     </>
   );
 };

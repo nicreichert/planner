@@ -8,6 +8,12 @@ export enum Shift {
   ANY_TIME = 'ANY_TIME',
 }
 
+export enum RecurrencyType {
+  WEEK_DAYS = 'WEEK_DAYS',
+  TIMES_PER_WEEK = 'TIMES_PER_WEEK',
+  NONE = 'NONE',
+}
+
 export type DayOfWeek = 'Sun' | 'Mon' | 'Tue' | 'Wed' | 'Thu' | 'Fri' | 'Sat';
 
 export interface Group {
@@ -29,9 +35,10 @@ export interface Task {
   id: string;
   name: string;
   notes?: Array<string>;
-  recurrencyType: 'Week' | 'Daily';
+  recurrencyType: RecurrencyType;
   recurrency?: Array<DayOfWeek> | number;
   repetitions: number;
+  completedRepetitions: number;
   shift: Shift;
 }
 

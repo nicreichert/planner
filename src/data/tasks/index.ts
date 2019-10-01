@@ -4,6 +4,8 @@ import update from 'ramda/es/update';
 import { Container } from '../../hooks';
 import { Task } from '../../types';
 
+export * from './selectors';
+
 const DATA_KEY = '__TASKS__';
 
 export const getTasks = async () => {
@@ -12,6 +14,7 @@ export const getTasks = async () => {
 
   return parsedData.map(task => ({
     ...task,
+    date: moment(task.date),
     completed: task.completed.map(c => moment(c)),
   }));
 };

@@ -10,8 +10,8 @@ export const ButtonWrapper = styled(TouchableOpacity)<
   flex: 1;
 
   background-color: ${({ alt }) => (alt ? colors.primary : colors.transparent)};
-  border-color: ${colors.primary};
 
+  border-color: ${colors.primary};
   border-width: 1px;
 
   height: 50px;

@@ -12,8 +12,8 @@ export const getDeltaWeeksFromDate = (date: Moment, delta: 1 | -1) => {
   return getWeek(date.add(delta, 'weeks'));
 };
 
-export const getOccurrencesInWeek = (dates: Array<Moment>) => {
-  const week = getWeek().map(d => d.format(EU_FORMAT));
+export const getOccurrencesInWeek = (dates: Array<Moment>, day: Moment) => {
+  const week = getWeek(day).map(d => d.format(EU_FORMAT));
   return dates.reduce((acc, d) => (week.includes(d.format(EU_FORMAT)) ? acc + 1 : acc), 0);
 };
 

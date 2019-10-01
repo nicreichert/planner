@@ -1,10 +1,12 @@
 import * as React from 'react';
 import { TextInput, TextInputProps } from 'react-native';
 import styled from 'styled-components';
+import { colors } from '../../../../constants/theme';
 import { InputType } from '../types';
 
 const Field = styled(TextInput)`
   flex: 1;
+  color: ${colors.primaryText};
 `;
 
 export interface TextInterface extends TextInputProps {

@@ -1,36 +1,50 @@
-import moment from 'moment';
+import { Moment } from 'moment';
 import * as React from 'react';
-import { Text, TouchableOpacity } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import uuid from 'uuid';
-import { Button, Input, InputType, ScreenWrapper } from '../../components';
+import {
+  Button,
+  Icon,
+  IconType,
+  Input,
+  InputType,
+  ScreenWrapper,
+  SmallText,
+  Tabs,
+} from '../../components';
+import { colors } from '../../constants/theme';
 import { taskContainer } from '../../data/tasks';
 import { useContainer } from '../../hooks';
-import { Navigation, Shift } from '../../types';
+import { Navigation, RecurrencyType, Shift } from '../../types';
 
 export const CreateTaskModal: React.FC<Navigation> = ({ navigation }) => {
+  const activeDay = navigation.getParam('activeDay') as Moment;
+
   const tasksContainer = useContainer(taskContainer);
 
   const [name, setName] = React.useState('');
   const [description, setDescription] = React.useState('');
   const [repetitions, setRepetitions] = React.useState(1);
   const [shift, setShift] = React.useState<Shift>(Shift.MORNING);
-  const [date, setDate] = React.useState(moment());
-  const [recurrency, setRecurrency] = React.useState([] as string[]);
-
-  const [disabled, setDisabled] = React.useState(true);
+  const [date, setDate] = React.useState(activeDay);
+  const [recurrency, setRecurrency] = React.useState();
+  const [recurrencyType, setRecurrencyType] = React.useState(RecurrencyType.NONE);
 
   const onSubmit = () => {
-    return;
-
+    if (!name) {
+      return;
+    }
     tasksContainer
       .addTask({
-        completed: false,
         id: uuid(),
+        completed: [],
         name,
         description,
         repetitions,
+        completedRepetitions: 0,
         shift,
         date,
+        recurrencyType,
         recurrency,
       })
       .then(() => navigation.goBack());
@@ -38,27 +52,27 @@ export const CreateTaskModal: React.FC<Navigation> = ({ navigation }) => {
 
   return (
     <ScreenWrapper>
-      <TouchableOpacity
-        style={{ position: 'absolute', top: 5, right: 5 }}
-        onPress={() => navigation.goBack()}
-      >
-        <Text>X</Text>
+      <TouchableOpacity style={{ marginLeft: 'auto' }} onPress={() => navigation.goBack()}>
+        <Icon type={IconType.CLOSE} size={30} color={colors.primary} />
       </TouchableOpacity>
 
-      <Input type={InputType.TEXT} mt={20} label={'Name'} value={name} onChangeText={setName} />
+      <Input type={InputType.TEXT} label={'Task'} value={name} onChangeText={setName} />
+
       <Input
         type={InputType.TEXT}
         label={'Description'}
         value={description}
         onChangeText={setDescription}
       />
-      {/* <Input
+
+      <Input
         type={InputType.NUMBER}
         label={'Repetitions'}
         keyboardType="number-pad"
-        value={repetitions}
-        onChangeText={setRepetitions}
-      /> */}
+        value={repetitions.toString()}
+        onChangeNumber={setRepetitions}
+      />
+
       <Input
         type={InputType.PICKER}
         label={'Shift'}
@@ -70,15 +84,48 @@ export const CreateTaskModal: React.FC<Navigation> = ({ navigation }) => {
         value={shift}
         onValueChange={setShift}
       />
-      {/* <Input value={date} onChangeText={setDate} />
-      <Input value={recurrency} onChangeText={setRecurrency} /> */}
-      <Input
-        label={'Checkbox'}
-        type={InputType.CHECKBOX}
-        disabled={disabled}
-        onChange={setDisabled}
-      />
 
+      <SmallText mb={10}>Recurrency</SmallText>
+      <Tabs<RecurrencyType>
+        tabs={[
+          {
+            label: 'None',
+            value: RecurrencyType.NONE,
+            onSelected: () => setRecurrency(undefined),
+            children: null,
+          },
+          {
+            label: 'Times Per Week',
+            value: RecurrencyType.TIMES_PER_WEEK,
+            onSelected: () => setRecurrency(0),
+            children: (
+              <Input
+                mt={10}
+                type={InputType.NUMBER}
+                label="Amount of times"
+                value={typeof recurrency === 'number' ? recurrency.toString() : '0'}
+                onChangeNumber={t => setRecurrency(t)}
+              />
+            ),
+          },
+          {
+            label: 'Week Days',
+            value: RecurrencyType.WEEK_DAYS,
+            onSelected: () => setRecurrency([]),
+            children: (
+              <Input
+                mt={10}
+                type={InputType.NUMBER}
+                label="Amount of times"
+                value={'0'}
+                onChangeNumber={t => setRecurrency(t)}
+              />
+            ),
+          },
+        ]}
+        activeTab={recurrencyType}
+        onChange={setRecurrencyType}
+      />
       <Button mt={20} label={'Create Task'} onPress={onSubmit} />
     </ScreenWrapper>
   );
