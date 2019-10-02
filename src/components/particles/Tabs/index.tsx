@@ -26,7 +26,7 @@ export const Tabs = <T extends any>({ tabs, activeTab, onChange }: Props<T>) => 
               onChange(tab.value);
             }}
           >
-            <BaseText>{tab.label}</BaseText>
+            <BaseText alt={tab.value === activeTab}>{tab.label}</BaseText>
           </Tab>
         ))}
       </Wrapper>

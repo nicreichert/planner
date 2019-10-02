@@ -6,7 +6,7 @@ import { TaskList } from '../../components/particles/TaskList';
 import { WeekBar } from '../../components/particles/WeekBar';
 import { colors } from '../../constants/theme';
 import { taskContainer } from '../../data/tasks';
-import { Navigation, Shift } from '../../types';
+import { Navigation, RecurrencyType, Shift } from '../../types';
 import { getDeltaWeeksFromDate, getWeek, isInPast } from '../../utils';
 import { AddTaskButton } from './styled';
 
@@ -20,7 +20,7 @@ setTimeout(() => {
     repetitions: 0,
     completedRepetitions: 0,
     shift: Shift.MORNING,
-    recurrencyType: 'TIMES_PER_WEEK',
+    recurrencyType: RecurrencyType.TIMES_PER_WEEK,
     recurrency: 3,
   });
   taskContainer.addTask({
@@ -31,7 +31,7 @@ setTimeout(() => {
     repetitions: 0,
     completedRepetitions: 0,
     shift: Shift.MORNING,
-    recurrencyType: 'TIMES_PER_WEEK',
+    recurrencyType: RecurrencyType.TIMES_PER_WEEK,
     recurrency: 3,
   });
   taskContainer.addTask({
@@ -42,7 +42,7 @@ setTimeout(() => {
     repetitions: 3,
     completedRepetitions: 0,
     shift: Shift.AFTERNOON,
-    recurrencyType: 'NONE',
+    recurrencyType: RecurrencyType.NONE,
   });
   taskContainer.addTask({
     id: uuid(),
@@ -52,7 +52,7 @@ setTimeout(() => {
     repetitions: 3,
     completedRepetitions: 0,
     shift: Shift.EVENING,
-    recurrencyType: 'WEEK_DAYS',
+    recurrencyType: RecurrencyType.WEEK_DAYS,
     recurrency: ['Mon', 'Wed', 'Fri'],
   });
 }, 1000);

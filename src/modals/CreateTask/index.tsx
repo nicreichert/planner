@@ -3,11 +3,14 @@ import * as React from 'react';
 import { TouchableOpacity } from 'react-native';
 import uuid from 'uuid';
 import {
+  BaseText,
   Button,
+  DayButton,
   Icon,
   IconType,
   Input,
   InputType,
+  Row,
   ScreenWrapper,
   SmallText,
   Tabs,
@@ -15,7 +18,7 @@ import {
 import { colors } from '../../constants/theme';
 import { taskContainer } from '../../data/tasks';
 import { useContainer } from '../../hooks';
-import { Navigation, RecurrencyType, Shift } from '../../types';
+import { DayOfWeek, Navigation, RecurrencyType, Shift } from '../../types';
 
 export const CreateTaskModal: React.FC<Navigation> = ({ navigation }) => {
   const activeDay = navigation.getParam('activeDay') as Moment;
@@ -27,7 +30,8 @@ export const CreateTaskModal: React.FC<Navigation> = ({ navigation }) => {
   const [repetitions, setRepetitions] = React.useState(1);
   const [shift, setShift] = React.useState<Shift>(Shift.MORNING);
   const [date, setDate] = React.useState(activeDay);
-  const [recurrency, setRecurrency] = React.useState();
+  const [recurrency, setRecurrency] = React.useState(0);
+  const [daysRecurrency, setDaysRecurrency] = React.useState([] as Array<DayOfWeek>);
   const [recurrencyType, setRecurrencyType] = React.useState(RecurrencyType.NONE);
 
   const onSubmit = () => {
@@ -45,7 +49,7 @@ export const CreateTaskModal: React.FC<Navigation> = ({ navigation }) => {
         shift,
         date,
         recurrencyType,
-        recurrency,
+        recurrency: recurrencyType === RecurrencyType.WEEK_DAYS ? daysRecurrency : recurrency,
       })
       .then(() => navigation.goBack());
   };
@@ -91,7 +95,7 @@ export const CreateTaskModal: React.FC<Navigation> = ({ navigation }) => {
           {
             label: 'None',
             value: RecurrencyType.NONE,
-            onSelected: () => setRecurrency(undefined),
+            onSelected: () => setRecurrency(0),
             children: null,
           },
           {
@@ -111,15 +115,26 @@ export const CreateTaskModal: React.FC<Navigation> = ({ navigation }) => {
           {
             label: 'Week Days',
             value: RecurrencyType.WEEK_DAYS,
-            onSelected: () => setRecurrency([]),
+            onSelected: () => setDaysRecurrency([]),
             children: (
-              <Input
-                mt={10}
-                type={InputType.NUMBER}
-                label="Amount of times"
-                value={'0'}
-                onChangeNumber={t => setRecurrency(t)}
-              />
+              <Row justifyContent="space-between">
+                {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => {
+                  const selected = daysRecurrency.includes(day as DayOfWeek);
+                  const dayOfWeek = day as DayOfWeek;
+                  return (
+                    <DayButton
+                      onPress={() =>
+                        setDaysRecurrency(r =>
+                          selected ? r.filter(d => d !== dayOfWeek) : [...r, dayOfWeek]
+                        )
+                      }
+                      alt={!selected}
+                    >
+                      <BaseText alt={!selected}>{day}</BaseText>
+                    </DayButton>
+                  );
+                })}
+              </Row>
             ),
           },
         ]}
