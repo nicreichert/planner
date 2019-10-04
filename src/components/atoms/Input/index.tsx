@@ -3,7 +3,7 @@ import { CheckBoxProps, TextInputProps, View } from 'react-native';
 import { PickerProps } from 'react-native-picker-select';
 import styled, { css } from 'styled-components';
 import { space, SpaceProps } from 'styled-system';
-import { colors } from '../../../constants/theme';
+import { colors } from '../../../constants';
 import { SmallText } from '../Typography';
 import { Checkbox, CheckboxInterface } from './components/Checkbox';
 import { NumberInput, NumberInterface } from './components/Number';

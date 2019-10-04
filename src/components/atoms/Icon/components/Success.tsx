@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Svg, { G, Path } from 'react-native-svg';
-import { colors } from '../../../../constants/theme';
+import { colors } from '../../../../constants';
 import { BaseProps } from '../types';
 
 export const Success = ({ width = 52, size, height = 52, color = colors.black }: BaseProps) => (

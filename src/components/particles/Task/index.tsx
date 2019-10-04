@@ -5,9 +5,9 @@ import { BaseText, Input, InputType } from '../../atoms';
 import { Wrapper } from './styled';
 
 interface Props {
-  task: TaskInterface;
   activeDay: Moment;
   onChange: (disabled: boolean) => void;
+  task: TaskInterface;
 }
 
 export const Task = ({ activeDay, onChange, task }: Props) => {

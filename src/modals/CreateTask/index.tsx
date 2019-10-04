@@ -15,7 +15,7 @@ import {
   SmallText,
   Tabs,
 } from '../../components';
-import { colors } from '../../constants/theme';
+import { colors, weekDays } from '../../constants';
 import { taskContainer } from '../../data/tasks';
 import { useContainer } from '../../hooks';
 import { DayOfWeek, Navigation, RecurrencyType, Shift } from '../../types';
@@ -38,11 +38,13 @@ export const CreateTaskModal: React.FC<Navigation> = ({ navigation }) => {
     if (!name) {
       return;
     }
+    console.log(recurrencyType);
     tasksContainer
       .addTask({
         id: uuid(),
         completed: [],
         name,
+        notes: [],
         description,
         repetitions,
         completedRepetitions: 0,
@@ -118,7 +120,7 @@ export const CreateTaskModal: React.FC<Navigation> = ({ navigation }) => {
             onSelected: () => setDaysRecurrency([]),
             children: (
               <Row justifyContent="space-between">
-                {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => {
+                {weekDays.map(day => {
                   const selected = daysRecurrency.includes(day as DayOfWeek);
                   const dayOfWeek = day as DayOfWeek;
                   return (
@@ -128,9 +130,9 @@ export const CreateTaskModal: React.FC<Navigation> = ({ navigation }) => {
                           selected ? r.filter(d => d !== dayOfWeek) : [...r, dayOfWeek]
                         )
                       }
-                      alt={!selected}
+                      alt={selected}
                     >
-                      <BaseText alt={!selected}>{day}</BaseText>
+                      <BaseText alt={selected}>{day}</BaseText>
                     </DayButton>
                   );
                 })}

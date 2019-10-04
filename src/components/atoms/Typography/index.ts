@@ -1,7 +1,7 @@
 import { Text } from 'react-native';
 import styled from 'styled-components';
 import { space, SpaceProps, textAlign, TextAlignProps } from 'styled-system';
-import { colors } from '../../../constants/theme';
+import { colors } from '../../../constants';
 
 interface Alt extends SpaceProps, TextAlignProps {
   alt?: boolean;

@@ -1,6 +1,6 @@
 import GestureRecognizer from 'react-native-swipe-gestures';
 import styled from 'styled-components';
-import { colors } from '../../../constants/theme';
+import { colors } from '../../../constants';
 
 export const Bar = styled(GestureRecognizer)`
   flex-direction: row;

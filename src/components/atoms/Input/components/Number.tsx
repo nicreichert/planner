@@ -2,7 +2,7 @@ import * as React from 'react';
 import { TextInput, TextInputProps, TouchableOpacity, View } from 'react-native';
 import styled from 'styled-components';
 import { space, SpaceProps } from 'styled-system';
-import { colors } from '../../../../constants/theme';
+import { colors } from '../../../../constants';
 import { LargeText } from '../../Typography';
 import { InputType } from '../types';
 

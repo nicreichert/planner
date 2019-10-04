@@ -1,63 +1,33 @@
 import moment, { Moment } from 'moment';
 import * as React from 'react';
-import uuid from 'uuid';
-import { Icon, IconType, LargeText, MediumText, ScreenWrapper } from '../../components/atoms';
+import { AddTaskButton, LargeText, MediumText, ScreenWrapper } from '../../components/atoms';
 import { TaskList } from '../../components/particles/TaskList';
 import { WeekBar } from '../../components/particles/WeekBar';
-import { colors } from '../../constants/theme';
-import { taskContainer } from '../../data/tasks';
-import { Navigation, RecurrencyType, Shift } from '../../types';
+import { filterTasksByShift, selectTasksForDay, taskContainer } from '../../data';
+import { useContainer } from '../../hooks';
+import { Navigation, Shift, Task } from '../../types';
 import { getDeltaWeeksFromDate, getWeek, isInPast } from '../../utils';
-import { AddTaskButton } from './styled';
 
-setTimeout(() => {
-  return;
-  taskContainer.addTask({
-    id: uuid(),
-    completed: [] as Array<Moment>,
-    date: moment(),
-    name: 'First Task',
-    repetitions: 0,
-    completedRepetitions: 0,
-    shift: Shift.MORNING,
-    recurrencyType: RecurrencyType.TIMES_PER_WEEK,
-    recurrency: 3,
-  });
-  taskContainer.addTask({
-    id: uuid(),
-    completed: [] as Array<Moment>,
-    date: moment(),
-    name: 'Second morning Task',
-    repetitions: 0,
-    completedRepetitions: 0,
-    shift: Shift.MORNING,
-    recurrencyType: RecurrencyType.TIMES_PER_WEEK,
-    recurrency: 3,
-  });
-  taskContainer.addTask({
-    id: uuid(),
-    completed: [] as Array<Moment>,
-    date: moment().add(200, 'seconds'),
-    name: 'Second Task',
-    repetitions: 3,
-    completedRepetitions: 0,
-    shift: Shift.AFTERNOON,
-    recurrencyType: RecurrencyType.NONE,
-  });
-  taskContainer.addTask({
-    id: uuid(),
-    completed: [] as Array<Moment>,
-    date: moment().add(400, 'seconds'),
-    name: 'Third Task',
-    repetitions: 3,
-    completedRepetitions: 0,
-    shift: Shift.EVENING,
-    recurrencyType: RecurrencyType.WEEK_DAYS,
-    recurrency: ['Mon', 'Wed', 'Fri'],
-  });
-}, 1000);
+const createSections = (data: Array<Task>, activeDay: Moment) => [
+  {
+    title: 'Morning',
+    data: data.filter(filterTasksByShift(Shift.MORNING)),
+    activeDay,
+  },
+  {
+    title: 'Afternoon',
+    data: data.filter(filterTasksByShift(Shift.AFTERNOON)),
+    activeDay,
+  },
+  {
+    title: 'Evening',
+    data: data.filter(filterTasksByShift(Shift.EVENING)),
+    activeDay,
+  },
+];
 
 export const Today: React.FC<Navigation> = ({ navigation }) => {
+  const tasks = useContainer(taskContainer);
   const [currentWeek, setCurrentWeek] = React.useState(getWeek());
   const [activeDay, setActiveDay] = React.useState(moment());
 
@@ -79,11 +49,11 @@ export const Today: React.FC<Navigation> = ({ navigation }) => {
       <ScreenWrapper>
         <MediumText>{isInPast(activeDay) ? 'What you did on' : 'Your plans for'}</MediumText>
         <LargeText>{activeDay.format('MMMM Do')}</LargeText>
-        <TaskList activeDay={activeDay} />
+        <TaskList
+          sections={createSections(selectTasksForDay(tasks.state.tasks, activeDay), activeDay)}
+        />
       </ScreenWrapper>
-      <AddTaskButton onPress={() => navigation.navigate('CreateTaskModal', { activeDay })}>
-        <Icon type={IconType.PLUS} color={colors.primary} />
-      </AddTaskButton>
+      <AddTaskButton onPress={() => navigation.navigate('CreateTaskModal', { activeDay })} />
     </>
   );
 };

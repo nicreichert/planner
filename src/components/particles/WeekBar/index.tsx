@@ -25,8 +25,12 @@ export const WeekBar: React.FC<Props> = ({
       {week.map(day => {
         const inactive = day.format(EU_FORMAT) !== activeDay.format(EU_FORMAT);
         return (
-          <DayButton key={day.format(EU_FORMAT)} onPress={() => onSetActiveDay(day)} alt={inactive}>
-            <ButtonLabel alt={inactive}>{`${day.format('ddd')}\n${day.format('D')}`}</ButtonLabel>
+          <DayButton
+            key={day.format(EU_FORMAT)}
+            onPress={() => onSetActiveDay(day)}
+            alt={!inactive}
+          >
+            <ButtonLabel alt={!inactive}>{`${day.format('ddd')}\n${day.format('D')}`}</ButtonLabel>
           </DayButton>
         );
       })}

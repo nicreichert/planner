@@ -1,50 +1,44 @@
 import { Moment } from 'moment';
 import * as React from 'react';
 import { SectionList, View } from 'react-native';
-import { filterTasksByShift, selectTasksForDay, taskContainer } from '../../../data/tasks';
+import styled from 'styled-components';
+import { colors } from '../../../constants';
+import { taskContainer } from '../../../data/tasks';
 import { useContainer } from '../../../hooks';
-import { Shift } from '../../../types';
-import { BaseText } from '../../atoms';
+import { Task as TaskInterface } from '../../../types';
+import { MediumText } from '../../atoms';
 import { Task } from '../Task';
-import { Header } from './styled';
+
+const Header = styled(View)`
+  margin: 20px 0 10px;
+`;
+
+const Separator = styled(View)`
+  height: 0.5px;
+  background-color: ${colors.primary};
+`;
 
 interface Props {
-  activeDay: Moment;
+  sections: Array<{ title: string; data: Array<TaskInterface>; activeDay: Moment }>;
 }
 
-export const TaskList = ({ activeDay }: Props) => {
+export const TaskList = ({ sections }: Props) => {
   const tasksContainer = useContainer(taskContainer);
-  const data = selectTasksForDay(tasksContainer.state.tasks, activeDay);
-
-  const createSections = () => [
-    {
-      title: 'Morning',
-      data: data.filter(filterTasksByShift(Shift.MORNING)),
-    },
-    {
-      title: 'Afternoon',
-      data: data.filter(filterTasksByShift(Shift.AFTERNOON)),
-    },
-    {
-      title: 'Evening',
-      data: data.filter(filterTasksByShift(Shift.EVENING)),
-    },
-  ];
 
   return (
     <SectionList
       style={{ paddingTop: 10 }}
-      sections={createSections()}
+      sections={sections}
       keyExtractor={task => task.id}
-      ItemSeparatorComponent={() => <View style={{ height: 5 }} />}
+      ItemSeparatorComponent={Separator}
       renderSectionHeader={({ section: { title, data } }) =>
         data.length > 0 ? (
           <Header>
-            <BaseText>{title}</BaseText>
+            <MediumText>{title}</MediumText>
           </Header>
         ) : null
       }
-      renderItem={({ item }) => (
+      renderItem={({ item, section: { activeDay } }) => (
         <Task
           onChange={() => tasksContainer.toggleComplete(item, activeDay)}
           activeDay={activeDay}

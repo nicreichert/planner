@@ -1,6 +1,6 @@
 import { TouchableOpacity, View } from 'react-native';
 import styled from 'styled-components';
-import { colors } from '../../../constants/theme';
+import { colors } from '../../../constants';
 
 export const Wrapper = styled(View)`
   border-color: ${colors.primary};

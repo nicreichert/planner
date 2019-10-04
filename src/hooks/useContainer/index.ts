@@ -46,6 +46,10 @@ export class Container<State = any> {
       if (callback) {
         callback(this.state);
       }
+
+      // if (process.env.NODE_ENV === 'development') {
+      //   console.log(nextState);
+      // }
     }
   };
 }

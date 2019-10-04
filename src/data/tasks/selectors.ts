@@ -1,6 +1,6 @@
 import { Moment } from 'moment';
-import { DayOfWeek, Shift, Task } from '../../types';
-import { combineFilters, getOccurrencesInWeek } from '../../utils';
+import { DayOfWeek, RecurrencyType, Shift, Task } from '../../types';
+import { combineFilters, getOccurrencesInWeek, getWeek } from '../../utils';
 
 /**
  * Filters
@@ -23,6 +23,14 @@ const filterTasksWithRecurrency = (day: Moment) => (task: Task) => {
 };
 
 export const filterTasksByShift = (shift: Shift) => (task: Task) => task.shift === shift;
+
+export const filterRecurrentTasks = (task: Task) => task.recurrencyType !== RecurrencyType.NONE;
+
+export const filterTaskByDay = (day: Moment) => (task: Task) =>
+  day.isSame(task.date, 'day') || Boolean(task.completed.find(c => c.isSame(day, 'day')));
+
+export const filterTasksForWeek = (day: Moment) => (task: Task) =>
+  Boolean(getWeek(day).find(d => d.isSame(task.date, 'day')));
 
 /**
  * Sorts
@@ -49,3 +57,6 @@ const sortByCompletion = (day: Moment) => (taskA: Task, taskB: Task) => {
  */
 export const selectTasksForDay = (tasks: Array<Task>, day: Moment) =>
   combineFilters(filterTasksWithRecurrency(day))(tasks).sort(sortByCompletion(day));
+
+export const selectTasksForWeek = (tasks: Array<Task>, day: Moment) =>
+  combineFilters(filterTasksForWeek(day), filterRecurrentTasks)(tasks);

@@ -34,7 +34,7 @@ export interface Task {
   groupId?: Array<string>;
   id: string;
   name: string;
-  notes?: Array<string>;
+  notes: Array<TaskNote>;
   recurrencyType: RecurrencyType;
   recurrency?: Array<DayOfWeek> | number;
   repetitions: number;

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { CheckBoxProps, TouchableOpacity } from 'react-native';
-import { colors } from '../../../../constants/theme';
+import { colors } from '../../../../constants';
 import { Icon, IconType } from '../../Icon';
 import { InputType } from '../types';
 
