@@ -1,8 +1,13 @@
 import moment, { Moment } from 'moment';
 import * as React from 'react';
-import { AddTaskButton, LargeText, MediumText, ScreenWrapper } from '../../components/atoms';
-import { TaskList } from '../../components/particles/TaskList';
-import { WeekBar } from '../../components/particles/WeekBar';
+import {
+  AddTaskButton,
+  LargeText,
+  MediumText,
+  ScreenWrapper,
+  TaskList,
+  WeekBar,
+} from '../../components';
 import { filterTasksByShift, selectTasksForDay, taskContainer } from '../../data';
 import { useContainer } from '../../hooks';
 import { Navigation, Shift, Task } from '../../types';

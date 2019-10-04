@@ -6,10 +6,12 @@ export interface BaseProps {
 }
 
 export enum IconType {
+  ARROW = 'Arrow',
   CALENDAR = 'Calendar',
   CIRCLE = 'Circle',
   CLOSE = 'Close',
   EDIT = 'Edit',
+  MINUS = 'Minus',
   PLUS = 'Plus',
   SUCCESS = 'Success',
   TRASH = 'Trash',

@@ -6,7 +6,7 @@ import { combineFilters, getOccurrencesInWeek, getWeek } from '../../utils';
  * Filters
  */
 
-const filterTasksWithRecurrency = (day: Moment) => (task: Task) => {
+export const filterTasksWithRecurrency = (day: Moment) => (task: Task) => {
   if (task.recurrencyType === 'WEEK_DAYS') {
     return (
       (task.recurrency as Array<DayOfWeek>).includes(day.format('ddd') as DayOfWeek) &&
@@ -25,9 +25,6 @@ const filterTasksWithRecurrency = (day: Moment) => (task: Task) => {
 export const filterTasksByShift = (shift: Shift) => (task: Task) => task.shift === shift;
 
 export const filterRecurrentTasks = (task: Task) => task.recurrencyType !== RecurrencyType.NONE;
-
-export const filterTaskByDay = (day: Moment) => (task: Task) =>
-  day.isSame(task.date, 'day') || Boolean(task.completed.find(c => c.isSame(day, 'day')));
 
 export const filterTasksForWeek = (day: Moment) => (task: Task) =>
   Boolean(getWeek(day).find(d => d.isSame(task.date, 'day')));

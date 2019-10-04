@@ -3,7 +3,7 @@ import { TextInput, TextInputProps, TouchableOpacity, View } from 'react-native'
 import styled from 'styled-components';
 import { space, SpaceProps } from 'styled-system';
 import { colors } from '../../../../constants';
-import { LargeText } from '../../Typography';
+import { Icon, IconType } from '../../Icon';
 import { InputType } from '../types';
 
 const Wrapper = styled(View)`
@@ -39,11 +39,11 @@ export const NumberInput: React.FC<NumberInterface> = ({ onChangeNumber, value, 
   <Wrapper>
     <Field {...rest} value={value} onChangeText={t => onChangeNumber(Number(t))} />
     <ButtonWrapper>
-      <Button onPress={() => onChangeNumber(Number(value) - 1)}>
-        <LargeText>-</LargeText>
+      <Button mr={10} onPress={() => onChangeNumber(Number(value) - 1)}>
+        <Icon type={IconType.MINUS} size={30} color={colors.primary} />
       </Button>
       <Button onPress={() => onChangeNumber(Number(value) + 1)}>
-        <LargeText>+</LargeText>
+        <Icon type={IconType.PLUS} size={30} color={colors.primary} />
       </Button>
     </ButtonWrapper>
   </Wrapper>

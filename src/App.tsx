@@ -1,4 +1,4 @@
-import moment, { Moment } from 'moment';
+import { Moment } from 'moment';
 import React from 'react';
 import { Text, View } from 'react-native';
 import { createAppContainer } from 'react-navigation';
@@ -9,19 +9,21 @@ import uuid from 'uuid';
 import { colors } from './constants';
 import { taskContainer } from './data';
 import { CreateTaskModal } from './modals/CreateTask';
-import { ThisWeek, Today } from './screens';
+import { Today, Week } from './screens';
 import { RecurrencyType, Shift, TaskNote } from './types';
-import { isIphoneX } from './utils';
+import { getWeek, isIphoneX } from './utils';
 
 console.disableYellowBox = true;
 
 // create some tasks to begin with.
 setTimeout(() => {
   return; // uncomment to create first few tasks.
+
+  const date = getWeek()[0];
   taskContainer.addTask({
     id: uuid(),
     completed: [] as Array<Moment>,
-    date: moment(),
+    date: date,
     name: 'First Task',
     notes: [] as Array<TaskNote>,
     repetitions: 0,
@@ -33,7 +35,7 @@ setTimeout(() => {
   taskContainer.addTask({
     id: uuid(),
     completed: [] as Array<Moment>,
-    date: moment(),
+    date: date.add(100, 'seconds'),
     name: 'Second morning Task',
     notes: [] as Array<TaskNote>,
     repetitions: 0,
@@ -45,7 +47,7 @@ setTimeout(() => {
   taskContainer.addTask({
     id: uuid(),
     completed: [] as Array<Moment>,
-    date: moment().add(200, 'seconds'),
+    date: date.add(200, 'seconds'),
     name: 'Second Task',
     notes: [] as Array<TaskNote>,
     repetitions: 3,
@@ -56,7 +58,7 @@ setTimeout(() => {
   taskContainer.addTask({
     id: uuid(),
     completed: [] as Array<Moment>,
-    date: moment().add(400, 'seconds'),
+    date: date.add(400, 'seconds'),
     name: 'Third Task',
     notes: [] as Array<TaskNote>,
     repetitions: 3,
@@ -73,8 +75,8 @@ const AppNavigator = createAppContainer(
     {
       Home: createBottomTabNavigator(
         {
-          Today: Today,
-          ['This Week']: ThisWeek,
+          Today,
+          Week,
         },
         {
           tabBarOptions: {
@@ -104,7 +106,6 @@ const AppNavigator = createAppContainer(
 
 const Wrapper = styled(View)`
   padding-top: ${isIphoneX ? 40 : 0}px;
-  padding-bottom: ${isIphoneX ? 0 : 40}px;
   height: 100%;
 `;
 
