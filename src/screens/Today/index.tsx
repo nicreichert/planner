@@ -55,6 +55,7 @@ export const Today: React.FC<Navigation> = ({ navigation }) => {
         <MediumText>{isInPast(activeDay) ? 'What you did on' : 'Your plans for'}</MediumText>
         <LargeText>{activeDay.format('MMMM Do')}</LargeText>
         <TaskList
+          onOpenTaskDetails={(task: Task) => navigation.navigate('TaskDetailsModal', { task })}
           sections={createSections(selectTasksForDay(tasks.state.tasks, activeDay), activeDay)}
         />
       </ScreenWrapper>

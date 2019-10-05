@@ -38,7 +38,7 @@ export const CreateTaskModal: React.FC<Navigation> = ({ navigation }) => {
     if (!name) {
       return;
     }
-    console.log(recurrencyType);
+
     tasksContainer
       .addTask({
         id: uuid(),

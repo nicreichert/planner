@@ -20,9 +20,10 @@ const Separator = styled(View)`
 
 interface Props {
   sections: Array<{ title: string; data: Array<TaskInterface>; activeDay: Moment }>;
+  onOpenTaskDetails: (task: TaskInterface) => void;
 }
 
-export const TaskList = ({ sections }: Props) => {
+export const TaskList = ({ sections, onOpenTaskDetails }: Props) => {
   const tasksContainer = useContainer(taskContainer);
 
   return (
@@ -40,7 +41,8 @@ export const TaskList = ({ sections }: Props) => {
       }
       renderItem={({ item, section: { activeDay } }) => (
         <Task
-          onChange={() => tasksContainer.toggleComplete(item, activeDay)}
+          onOpenDetails={onOpenTaskDetails}
+          onToggleComplete={() => tasksContainer.toggleComplete(item, activeDay)}
           activeDay={activeDay}
           task={item}
         />

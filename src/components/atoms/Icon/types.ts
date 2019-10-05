@@ -10,6 +10,7 @@ export enum IconType {
   CALENDAR = 'Calendar',
   CIRCLE = 'Circle',
   CLOSE = 'Close',
+  DETAILS = 'Details',
   EDIT = 'Edit',
   MINUS = 'Minus',
   PLUS = 'Plus',

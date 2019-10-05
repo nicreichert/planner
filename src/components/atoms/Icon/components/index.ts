@@ -2,6 +2,8 @@ export * from './Arrow';
 export * from './Calendar';
 export * from './Circle';
 export * from './Close';
+export * from './Details';
+export * from './Edit';
 export * from './Minus';
 export * from './Plus';
 export * from './Success';

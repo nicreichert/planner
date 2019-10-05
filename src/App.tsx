@@ -8,6 +8,7 @@ import styled from 'styled-components';
 import uuid from 'uuid';
 import { colors } from './constants';
 import { taskContainer } from './data';
+import { TaskDetails } from './modals';
 import { CreateTaskModal } from './modals/CreateTask';
 import { Today, Week } from './screens';
 import { RecurrencyType, Shift, TaskNote } from './types';
@@ -95,6 +96,16 @@ const AppNavigator = createAppContainer(
             </View>
           ),
         },
+      },
+      TaskDetailsModal: {
+        screen: TaskDetails,
+        // navigationOptions: {
+        //   header: () => (
+        //     <View>
+        //       <Text>Create Task</Text>
+        //     </View>
+        //   ),
+        // },
       },
     },
     {

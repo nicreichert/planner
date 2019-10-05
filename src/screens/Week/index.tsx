@@ -1,18 +1,10 @@
 import moment from 'moment';
 import * as React from 'react';
-import { TouchableOpacity, View } from 'react-native';
-import {
-  AddTaskButton,
-  Icon,
-  IconType,
-  LargeText,
-  ScreenWrapper,
-  TaskList,
-} from '../../components';
-import { colors, weekDays } from '../../constants';
+import { AddTaskButton, Controller, LargeText, ScreenWrapper, TaskList } from '../../components';
+import { weekDays } from '../../constants';
 import { filterTasksWithRecurrency, selectTasksForWeek, taskContainer } from '../../data';
 import { useContainer } from '../../hooks';
-import { Navigation } from '../../types';
+import { Navigation, Task } from '../../types';
 import { getWeek } from '../../utils';
 
 export const Week: React.FC<Navigation> = ({ navigation }) => {
@@ -50,21 +42,14 @@ export const Week: React.FC<Navigation> = ({ navigation }) => {
 
   return (
     <>
-      <View
-        style={{ flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 10 }}
-      >
-        <TouchableOpacity onPress={() => handleChangeWeek(-1)}>
-          <View style={{ transform: [{ rotateZ: '180deg' }] }}>
-            <Icon type={IconType.ARROW} size={30} color={colors.primary} />
-          </View>
-        </TouchableOpacity>
+      <Controller onPressLeft={() => handleChangeWeek(-1)} onPressRight={() => handleChangeWeek(1)}>
         <LargeText>{getHeaderText()}</LargeText>
-        <TouchableOpacity onPress={() => handleChangeWeek(1)}>
-          <Icon type={IconType.ARROW} size={30} color={colors.primary} />
-        </TouchableOpacity>
-      </View>
+      </Controller>
       <ScreenWrapper>
-        <TaskList sections={createSections()} />
+        <TaskList
+          onOpenTaskDetails={(task: Task) => navigation.navigate('TaskDetailsModal', { task })}
+          sections={createSections()}
+        />
       </ScreenWrapper>
       <AddTaskButton onPress={() => navigation.navigate('CreateTaskModal', { activeDay })} />
     </>

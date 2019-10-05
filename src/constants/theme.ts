@@ -23,7 +23,7 @@ export const colors = {
   accent: '#C4E7D4', // red
 
   // disabled: '#998DA0', // light gray
-  disabled: '#ddd', // light gray
+  disabled: '#eee', // light gray
 
   white: '#fff',
   black: '#000',
