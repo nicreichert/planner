@@ -1,6 +1,6 @@
+import { colors } from '@planner/constants';
 import { View } from 'react-native';
 import styled, { css } from 'styled-components';
-import { colors } from '../../../constants';
 
 export const HeaderStyle = css`
   flex-direction: row;

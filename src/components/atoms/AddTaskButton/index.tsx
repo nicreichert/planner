@@ -1,7 +1,7 @@
+import { colors } from '@planner/constants';
 import * as React from 'react';
 import { TouchableOpacity } from 'react-native';
 import styled from 'styled-components';
-import { colors } from '../../../constants';
 import { Icon, IconType } from '../Icon';
 
 export const Wrapper = styled(TouchableOpacity)`
@@ -18,6 +18,6 @@ interface Props {
 
 export const AddTaskButton = ({ onPress }: Props) => (
   <Wrapper onPress={onPress}>
-    <Icon type={IconType.PLUS} color={colors.primary} />
+    <Icon type={IconType.PLUS} color={colors.primary} size={40} />
   </Wrapper>
 );

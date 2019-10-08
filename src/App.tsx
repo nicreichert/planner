@@ -1,3 +1,9 @@
+import { colors } from '@planner/constants';
+import { taskContainer } from '@planner/data';
+import { CreateTaskModal, TaskDetails } from '@planner/modals';
+import { Today, Week } from '@planner/screens';
+import { RecurrencyType, Shift, TaskNote } from '@planner/types';
+import { getWeek, isIphoneX } from '@planner/utils';
 import { Moment } from 'moment';
 import React from 'react';
 import { Text, View } from 'react-native';
@@ -6,13 +12,6 @@ import { createStackNavigator } from 'react-navigation-stack';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import styled from 'styled-components';
 import uuid from 'uuid';
-import { colors } from './constants';
-import { taskContainer } from './data';
-import { TaskDetails } from './modals';
-import { CreateTaskModal } from './modals/CreateTask';
-import { Today, Week } from './screens';
-import { RecurrencyType, Shift, TaskNote } from './types';
-import { getWeek, isIphoneX } from './utils';
 
 console.disableYellowBox = true;
 
@@ -23,10 +22,10 @@ setTimeout(() => {
   const date = getWeek()[0];
   taskContainer.addTask({
     id: uuid(),
-    completed: [] as Array<Moment>,
+    completed: [] as Moment[],
     date: date,
     name: 'First Task',
-    notes: [] as Array<TaskNote>,
+    notes: [] as TaskNote[],
     repetitions: 0,
     completedRepetitions: 0,
     shift: Shift.MORNING,
@@ -35,10 +34,10 @@ setTimeout(() => {
   });
   taskContainer.addTask({
     id: uuid(),
-    completed: [] as Array<Moment>,
+    completed: [] as Moment[],
     date: date.add(100, 'seconds'),
     name: 'Second morning Task',
-    notes: [] as Array<TaskNote>,
+    notes: [] as TaskNote[],
     repetitions: 0,
     completedRepetitions: 0,
     shift: Shift.MORNING,
@@ -47,10 +46,10 @@ setTimeout(() => {
   });
   taskContainer.addTask({
     id: uuid(),
-    completed: [] as Array<Moment>,
+    completed: [] as Moment[],
     date: date.add(200, 'seconds'),
     name: 'Second Task',
-    notes: [] as Array<TaskNote>,
+    notes: [] as TaskNote[],
     repetitions: 3,
     completedRepetitions: 0,
     shift: Shift.AFTERNOON,
@@ -58,10 +57,10 @@ setTimeout(() => {
   });
   taskContainer.addTask({
     id: uuid(),
-    completed: [] as Array<Moment>,
+    completed: [] as Moment[],
     date: date.add(400, 'seconds'),
     name: 'Third Task',
-    notes: [] as Array<TaskNote>,
+    notes: [] as TaskNote[],
     repetitions: 3,
     completedRepetitions: 0,
     shift: Shift.EVENING,
@@ -90,6 +89,7 @@ const AppNavigator = createAppContainer(
       CreateTaskModal: {
         screen: CreateTaskModal,
         navigationOptions: {
+          // eslint-disable-next-line
           header: () => (
             <View>
               <Text>Create Task</Text>
@@ -120,8 +120,10 @@ const Wrapper = styled(View)`
   height: 100%;
 `;
 
-export default () => (
+const App = () => (
   <Wrapper>
     <AppNavigator />
   </Wrapper>
 );
+
+export default App;

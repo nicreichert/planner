@@ -1,5 +1,3 @@
-import moment, { Moment } from 'moment';
-import * as React from 'react';
 import {
   AddTaskButton,
   LargeText,
@@ -7,29 +5,14 @@ import {
   ScreenWrapper,
   TaskList,
   WeekBar,
-} from '../../components';
-import { filterTasksByShift, selectTasksForDay, taskContainer } from '../../data';
-import { useContainer } from '../../hooks';
-import { Navigation, Shift, Task } from '../../types';
-import { getDeltaWeeksFromDate, getWeek, isInPast } from '../../utils';
-
-const createSections = (data: Array<Task>, activeDay: Moment) => [
-  {
-    title: 'Morning',
-    data: data.filter(filterTasksByShift(Shift.MORNING)),
-    activeDay,
-  },
-  {
-    title: 'Afternoon',
-    data: data.filter(filterTasksByShift(Shift.AFTERNOON)),
-    activeDay,
-  },
-  {
-    title: 'Evening',
-    data: data.filter(filterTasksByShift(Shift.EVENING)),
-    activeDay,
-  },
-];
+} from '@planner/components';
+import { selectTasksForDay, taskContainer } from '@planner/data';
+import { useContainer } from '@planner/hooks';
+import { Navigation, Task } from '@planner/types';
+import { getDeltaWeeksFromDate, getWeek, isInPast } from '@planner/utils';
+import moment from 'moment';
+import * as React from 'react';
+import { createSections } from './helpers';
 
 export const Today: React.FC<Navigation> = ({ navigation }) => {
   const tasks = useContainer(taskContainer);
@@ -53,7 +36,7 @@ export const Today: React.FC<Navigation> = ({ navigation }) => {
       />
       <ScreenWrapper>
         <MediumText>{isInPast(activeDay) ? 'What you did on' : 'Your plans for'}</MediumText>
-        <LargeText>{activeDay.format('MMMM Do')}</LargeText>
+        <LargeText mb={20}>{activeDay.format('MMMM Do')}</LargeText>
         <TaskList
           onOpenTaskDetails={(task: Task) => navigation.navigate('TaskDetailsModal', { task })}
           sections={createSections(selectTasksForDay(tasks.state.tasks, activeDay), activeDay)}

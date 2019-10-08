@@ -1,7 +1,3 @@
-import { Moment } from 'moment';
-import * as React from 'react';
-import { TouchableOpacity } from 'react-native';
-import uuid from 'uuid';
 import {
   BaseText,
   Button,
@@ -14,11 +10,15 @@ import {
   ScreenWrapper,
   SmallText,
   Tabs,
-} from '../../components';
-import { colors, weekDays } from '../../constants';
-import { taskContainer } from '../../data/tasks';
-import { useContainer } from '../../hooks';
-import { DayOfWeek, Navigation, RecurrencyType, Shift } from '../../types';
+} from '@planner/components';
+import { colors, weekDays } from '@planner/constants';
+import { taskContainer } from '@planner/data/tasks';
+import { useContainer } from '@planner/hooks';
+import { DayOfWeek, Navigation, RecurrencyType, Shift } from '@planner/types';
+import moment, { Moment } from 'moment';
+import * as React from 'react';
+import { TouchableOpacity } from 'react-native';
+import uuid from 'uuid';
 
 export const CreateTaskModal: React.FC<Navigation> = ({ navigation }) => {
   const activeDay = navigation.getParam('activeDay') as Moment;
@@ -29,9 +29,9 @@ export const CreateTaskModal: React.FC<Navigation> = ({ navigation }) => {
   const [description, setDescription] = React.useState('');
   const [repetitions, setRepetitions] = React.useState(1);
   const [shift, setShift] = React.useState<Shift>(Shift.MORNING);
-  const [date, setDate] = React.useState(activeDay);
+  const [date, setDate] = React.useState(activeDay || moment());
   const [recurrency, setRecurrency] = React.useState(0);
-  const [daysRecurrency, setDaysRecurrency] = React.useState([] as Array<DayOfWeek>);
+  const [daysRecurrency, setDaysRecurrency] = React.useState([] as DayOfWeek[]);
   const [recurrencyType, setRecurrencyType] = React.useState(RecurrencyType.NONE);
 
   const onSubmit = () => {
@@ -121,10 +121,11 @@ export const CreateTaskModal: React.FC<Navigation> = ({ navigation }) => {
             children: (
               <Row justifyContent="space-between">
                 {weekDays.map(day => {
-                  const selected = daysRecurrency.includes(day as DayOfWeek);
-                  const dayOfWeek = day as DayOfWeek;
+                  const dayOfWeek = day.substring(0, 3) as DayOfWeek;
+                  const selected = daysRecurrency.includes(dayOfWeek);
                   return (
                     <DayButton
+                      key={dayOfWeek}
                       onPress={() =>
                         setDaysRecurrency(r =>
                           selected ? r.filter(d => d !== dayOfWeek) : [...r, dayOfWeek]
@@ -132,7 +133,7 @@ export const CreateTaskModal: React.FC<Navigation> = ({ navigation }) => {
                       }
                       alt={selected}
                     >
-                      <BaseText alt={selected}>{day}</BaseText>
+                      <BaseText alt={selected}>{dayOfWeek}</BaseText>
                     </DayButton>
                   );
                 })}

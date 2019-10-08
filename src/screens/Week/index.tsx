@@ -1,11 +1,10 @@
+import { AddTaskButton, Controller, LargeText, ScreenWrapper, TaskList } from '@planner/components';
+import { taskContainer } from '@planner/data';
+import { useContainer } from '@planner/hooks';
+import { Navigation, Task } from '@planner/types';
 import moment from 'moment';
 import * as React from 'react';
-import { AddTaskButton, Controller, LargeText, ScreenWrapper, TaskList } from '../../components';
-import { weekDays } from '../../constants';
-import { filterTasksWithRecurrency, selectTasksForWeek, taskContainer } from '../../data';
-import { useContainer } from '../../hooks';
-import { Navigation, Task } from '../../types';
-import { getWeek } from '../../utils';
+import { createSections, getHeaderText } from './helpers';
 
 export const Week: React.FC<Navigation> = ({ navigation }) => {
   const [weekDelta, setWeekDelta] = React.useState(0);
@@ -13,42 +12,17 @@ export const Week: React.FC<Navigation> = ({ navigation }) => {
 
   const handleChangeWeek = (delta: 1 | -1) => setWeekDelta(w => w + delta);
 
-  const createSections = () => {
-    const date = moment().add(weekDelta, 'weeks');
-    const data = selectTasksForWeek(tasks.state.tasks, date);
-    const week = getWeek(date);
-    return weekDays.map((day, index) => ({
-      title: day,
-      data: data.filter(filterTasksWithRecurrency(week[index])),
-      activeDay: week[index],
-    }));
-  };
-
-  const getHeaderText = () => {
-    if (weekDelta === 0) {
-      return 'This week\'s overview';
-    } else if (weekDelta === -1) {
-      return 'Last week\'s overview';
-    } else if (weekDelta === 1) {
-      return 'Next week\'s overview';
-    } else if (weekDelta > 0) {
-      return `Plans for ${weekDelta} weeks from now`;
-    } else {
-      return `Overview of ${Math.abs(weekDelta)} weeks ago`;
-    }
-  };
-
   const activeDay = moment();
 
   return (
     <>
       <Controller onPressLeft={() => handleChangeWeek(-1)} onPressRight={() => handleChangeWeek(1)}>
-        <LargeText>{getHeaderText()}</LargeText>
+        <LargeText>{getHeaderText(weekDelta)}</LargeText>
       </Controller>
       <ScreenWrapper>
         <TaskList
           onOpenTaskDetails={(task: Task) => navigation.navigate('TaskDetailsModal', { task })}
-          sections={createSections()}
+          sections={createSections(weekDelta, tasks.state.tasks)}
         />
       </ScreenWrapper>
       <AddTaskButton onPress={() => navigation.navigate('CreateTaskModal', { activeDay })} />

@@ -1,13 +1,13 @@
-import { Container } from '../../hooks';
-import { Group } from '../../types';
+import { Container } from '@planner/hooks';
+import { Group } from '@planner/types';
 import { loadGroups } from './storage';
 
 interface State {
-  groups: Array<Group>;
+  groups: Group[];
 }
 
 export default class GroupContainer extends Container<State> {
-  constructor() {
+  public constructor() {
     super();
 
     loadGroups().then(groups => this.setState({ groups }));

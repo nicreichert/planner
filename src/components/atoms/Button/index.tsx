@@ -1,11 +1,11 @@
+import { colors } from '@planner/constants';
 import * as React from 'react';
 import { Text, TouchableOpacity, TouchableOpacityProps } from 'react-native';
 import styled from 'styled-components';
 import { borderRadius, BorderRadiusProps, space, SpaceProps } from 'styled-system';
-import { colors } from '../../../constants';
 
 export const ButtonWrapper = styled(TouchableOpacity)<
-  SpaceProps & BorderRadiusProps & { alt?: boolean }
+SpaceProps & BorderRadiusProps & { alt?: boolean }
 >`
   flex: 1;
 

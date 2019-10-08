@@ -1,14 +1,14 @@
+import { Container } from '@planner/hooks';
+import { Task } from '@planner/types';
 import asyncStorage from '@react-native-community/async-storage';
 import moment, { Moment } from 'moment';
 import update from 'ramda/es/update';
-import { Container } from '../../hooks';
-import { Task } from '../../types';
 
 const DATA_KEY = '__TASKS__';
 
 export const getTasks = async () => {
   const data = await asyncStorage.getItem(DATA_KEY);
-  const parsedData = JSON.parse(data || '') as Array<Task>;
+  const parsedData = JSON.parse(data || '') as Task[];
 
   return parsedData.map(task => ({
     ...task,
@@ -17,29 +17,29 @@ export const getTasks = async () => {
   }));
 };
 
-export const setTasksData = (data: Array<Task>) => {
+export const setTasksData = (data: Task[]) => {
   asyncStorage.setItem(DATA_KEY, JSON.stringify(data));
 };
 
 interface State {
-  tasks: Array<Task>;
+  tasks: Task[];
 }
 
 export default class TaskContainer extends Container<State> {
-  constructor() {
+  public constructor() {
     super();
 
     this.state = {
-      tasks: [] as Array<Task>,
+      tasks: [] as Task[],
     };
 
-    getTasks().then(tasks => this.setState({ tasks: tasks || ([] as Array<Task>) }));
+    getTasks().then(tasks => this.setState({ tasks: tasks || ([] as Task[]) }));
   }
 
-  addTask = async (task: Task) =>
+  public addTask = async (task: Task) =>
     this.setState(s => ({ tasks: [...s.tasks, task] }), s => setTasksData(s.tasks));
 
-  removeTask = async (taskId: string) =>
+  public removeTask = async (taskId: string) =>
     this.setState(
       s => ({ tasks: s.tasks.filter(t => t.id !== taskId) }),
       s => setTasksData(s.tasks)
@@ -55,7 +55,7 @@ export default class TaskContainer extends Container<State> {
     return this.updateTask(task);
   };
 
-  toggleComplete = async (task: Task, completion: Moment) => {
+  public toggleComplete = async (task: Task, completion: Moment) => {
     if (task.completed.find(c => c.isSame(completion, 'day'))) {
       this.uncompleteTask(task, completion);
     } else {
@@ -63,7 +63,7 @@ export default class TaskContainer extends Container<State> {
     }
   };
 
-  updateTask = async (task: Task) =>
+  public updateTask = async (task: Task) =>
     this.setState(
       s => ({
         tasks: update(s.tasks.findIndex(t => t.id === task.id), task, s.tasks),

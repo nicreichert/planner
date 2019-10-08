@@ -1,19 +1,20 @@
+import { BaseText } from '@planner/components';
 import * as React from 'react';
-import { BaseText } from '../../atoms';
 import { Tab, Wrapper } from './styled';
 
 interface Props<T> {
-  tabs: Array<{
+  tabs: {
     label: string;
     value: T;
     onSelected?: () => void;
     children: React.ReactNode;
-  }>;
+  }[];
   onChange: (t: T) => void;
   activeTab: T;
 }
 
 export const Tabs = <T extends any>({ tabs, activeTab, onChange }: Props<T>) => {
+  const currentTab = tabs.find(t => t.value === activeTab);
   return (
     <>
       <Wrapper>
@@ -30,7 +31,7 @@ export const Tabs = <T extends any>({ tabs, activeTab, onChange }: Props<T>) => 
           </Tab>
         ))}
       </Wrapper>
-      {tabs.find(t => t.value === activeTab)!.children}
+      {currentTab && currentTab.children}
     </>
   );
 };

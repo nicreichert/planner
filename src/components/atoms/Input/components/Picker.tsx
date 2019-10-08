@@ -1,6 +1,6 @@
+import { colors } from '@planner/constants';
 import * as React from 'react';
 import RNPicker, { PickerProps } from 'react-native-picker-select';
-import { colors } from '../../../../constants';
 import { InputType } from '../types';
 
 export interface PickerInterface extends PickerProps {

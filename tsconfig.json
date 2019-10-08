@@ -2,6 +2,7 @@
   "compilerOptions": {
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
+    "baseUrl": "src",
     "esModuleInterop": true,
     "isolatedModules": true,
     "jsx": "react",
@@ -9,6 +10,9 @@
     "moduleResolution": "node",
     "module": "esnext",
     "noEmit": true,
+    "paths": {
+      "@planner/*": ["*"]
+    },
     "strict": true,
     "target": "esnext"
   },

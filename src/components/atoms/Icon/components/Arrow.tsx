@@ -1,6 +1,6 @@
+import { colors } from '@planner/constants';
 import * as React from 'react';
 import Svg, { Polygon } from 'react-native-svg';
-import { colors } from '../../../../constants';
 import { BaseProps } from '../types';
 
 export const Arrow = ({ width = 60, size, height = 60, color = colors.black }: BaseProps) => (

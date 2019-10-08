@@ -1,10 +1,10 @@
+import { Icon, IconType, LargeText, Row, ScreenWrapper } from '@planner/components';
+import { colors } from '@planner/constants';
+import { taskContainer } from '@planner/data';
+import { useContainer, useToggle } from '@planner/hooks';
+import { Navigation, Task } from '@planner/types';
 import * as React from 'react';
 import { TouchableOpacity } from 'react-native';
-import { Icon, IconType, LargeText, Row, ScreenWrapper } from '../../components';
-import { colors } from '../../constants';
-import { taskContainer } from '../../data';
-import { useContainer, useToggle } from '../../hooks';
-import { Navigation, Task } from '../../types';
 
 export const TaskDetails: React.FC<Navigation> = ({ navigation }) => {
   const [isEditing, toggleEdit] = useToggle(false);

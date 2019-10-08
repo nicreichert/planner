@@ -1,8 +1,7 @@
+import { ButtonLabel, DayButton } from '@planner/components';
+import { EU_FORMAT } from '@planner/utils';
 import { Moment } from 'moment';
 import * as React from 'react';
-import { ButtonLabel } from '../..';
-import { EU_FORMAT } from '../../../utils';
-import { DayButton } from '../../atoms';
 import { Controller } from '../Controller';
 import { Bar } from './styled';
 
@@ -11,7 +10,7 @@ interface Props {
   onSwipeLeft: () => void;
   onSwipeRight: () => void;
   onSetActiveDay: (day: Moment) => void;
-  week: Array<Moment>;
+  week: Moment[];
 }
 
 export const WeekBar: React.FC<Props> = ({

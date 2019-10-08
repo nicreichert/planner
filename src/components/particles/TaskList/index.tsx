@@ -1,16 +1,16 @@
+import { MediumText } from '@planner/components';
+import { colors } from '@planner/constants';
+import { taskContainer } from '@planner/data';
+import { useContainer } from '@planner/hooks';
+import { Task as TaskInterface } from '@planner/types';
 import { Moment } from 'moment';
 import * as React from 'react';
 import { SectionList, View } from 'react-native';
 import styled from 'styled-components';
-import { colors } from '../../../constants';
-import { taskContainer } from '../../../data/tasks';
-import { useContainer } from '../../../hooks';
-import { Task as TaskInterface } from '../../../types';
-import { MediumText } from '../../atoms';
 import { Task } from '../Task';
 
 const Header = styled(View)`
-  margin: 20px 0 10px;
+  margin-bottom: 10px;
 `;
 
 const Separator = styled(View)`
@@ -18,8 +18,12 @@ const Separator = styled(View)`
   background-color: ${colors.primary};
 `;
 
+const Footer = styled(View)`
+  height: 30px;
+`;
+
 interface Props {
-  sections: Array<{ title: string; data: Array<TaskInterface>; activeDay: Moment }>;
+  sections: { title: string; data: TaskInterface[]; activeDay: Moment }[];
   onOpenTaskDetails: (task: TaskInterface) => void;
 }
 
@@ -32,6 +36,7 @@ export const TaskList = ({ sections, onOpenTaskDetails }: Props) => {
       sections={sections}
       keyExtractor={task => task.id}
       ItemSeparatorComponent={Separator}
+      ListFooterComponent={Footer}
       renderSectionHeader={({ section: { title, data } }) =>
         data.length > 0 ? (
           <Header>

@@ -1,15 +1,14 @@
+import { DayOfWeek, RecurrencyType, Shift, Task } from '@planner/types';
+import { combineFilters, getOccurrencesInWeek, getWeek } from '@planner/utils';
 import { Moment } from 'moment';
-import { DayOfWeek, RecurrencyType, Shift, Task } from '../../types';
-import { combineFilters, getOccurrencesInWeek, getWeek } from '../../utils';
 
 /**
  * Filters
  */
-
 export const filterTasksWithRecurrency = (day: Moment) => (task: Task) => {
   if (task.recurrencyType === 'WEEK_DAYS') {
     return (
-      (task.recurrency as Array<DayOfWeek>).includes(day.format('ddd') as DayOfWeek) &&
+      (task.recurrency as DayOfWeek[]).includes(day.format('ddd') as DayOfWeek) &&
       day.diff(task.date, 'day') >= 0
     );
   } else if (task.recurrencyType === 'TIMES_PER_WEEK') {
@@ -45,15 +44,8 @@ const sortByCompletion = (day: Moment) => (taskA: Task, taskB: Task) => {
 /**
  * Selectors
  */
-
-/**
- *
- * Select tasks for a given day
- * @param tasks
- * @param day
- */
-export const selectTasksForDay = (tasks: Array<Task>, day: Moment) =>
+export const selectTasksForDay = (tasks: Task[], day: Moment) =>
   combineFilters(filterTasksWithRecurrency(day))(tasks).sort(sortByCompletion(day));
 
-export const selectTasksForWeek = (tasks: Array<Task>, day: Moment) =>
+export const selectTasksForWeek = (tasks: Task[], day: Moment) =>
   combineFilters(filterTasksForWeek(day), filterRecurrentTasks)(tasks);
