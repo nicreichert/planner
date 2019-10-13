@@ -1,8 +1,8 @@
-import { weekDays } from '@planner/constants';
-import { filterTasksWithRecurrency, selectTasksForWeek } from '@planner/data';
-import { Task } from '@planner/types';
-import { getWeek } from '@planner/utils';
 import moment from 'moment';
+import { weekDays } from '~planner/constants';
+import { filterTasksWithRecurrency, selectTasksForWeek } from '~planner/data';
+import { Task } from '~planner/types';
+import { getWeek } from '~planner/utils';
 
 export const createSections = (weekDelta: number, tasks: Task[]) => {
   const date = moment().add(weekDelta, 'weeks');

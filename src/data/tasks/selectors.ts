@@ -1,6 +1,6 @@
-import { DayOfWeek, RecurrencyType, Shift, Task } from '@planner/types';
-import { combineFilters, getOccurrencesInWeek, getWeek } from '@planner/utils';
 import { Moment } from 'moment';
+import { DayOfWeek, RecurrencyType, Shift, Task } from '~planner/types';
+import { combineFilters, getOccurrencesInWeek, getWeek } from '~planner/utils';
 
 /**
  * Filters

@@ -1,5 +1,5 @@
-import { Container } from '@planner/hooks';
-import { Group } from '@planner/types';
+import { Container } from '~planner/hooks';
+import { Group } from '~planner/types';
 import { loadGroups } from './storage';
 
 interface State {

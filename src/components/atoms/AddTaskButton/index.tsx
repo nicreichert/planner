@@ -1,7 +1,7 @@
-import { colors } from '@planner/constants';
 import * as React from 'react';
 import { TouchableOpacity } from 'react-native';
 import styled from 'styled-components';
+import { colors } from '~planner/constants';
 import { Icon, IconType } from '../Icon';
 
 export const Wrapper = styled(TouchableOpacity)`

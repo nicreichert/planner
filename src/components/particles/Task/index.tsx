@@ -1,9 +1,9 @@
-import { BaseText, Icon, IconType, Input, InputType } from '@planner/components';
-import { colors } from '@planner/constants';
-import { Task as TaskInterface } from '@planner/types';
 import { Moment } from 'moment';
 import * as React from 'react';
 import { View } from 'react-native';
+import { BaseText, Icon, IconType, Input, InputType } from '~planner/components';
+import { colors } from '~planner/constants';
+import { Task as TaskInterface } from '~planner/types';
 import { Wrapper } from './styled';
 
 interface Props {

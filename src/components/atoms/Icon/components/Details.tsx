@@ -1,6 +1,6 @@
-import { colors } from '@planner/constants';
 import * as React from 'react';
 import Svg, { G, Path } from 'react-native-svg';
+import { colors } from '~planner/constants';
 import { BaseProps } from '../types';
 
 export const Details = ({ width = 50, size, height = 50, color = colors.black }: BaseProps) => (

@@ -1,8 +1,8 @@
-import { Container } from '@planner/hooks';
-import { Task } from '@planner/types';
 import asyncStorage from '@react-native-community/async-storage';
 import moment, { Moment } from 'moment';
 import update from 'ramda/es/update';
+import { Container } from '~planner/hooks';
+import { Task } from '~planner/types';
 
 const DATA_KEY = '__TASKS__';
 

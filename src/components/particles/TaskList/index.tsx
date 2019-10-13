@@ -1,12 +1,12 @@
-import { MediumText } from '@planner/components';
-import { colors } from '@planner/constants';
-import { taskContainer } from '@planner/data';
-import { useContainer } from '@planner/hooks';
-import { Task as TaskInterface } from '@planner/types';
 import { Moment } from 'moment';
 import * as React from 'react';
 import { SectionList, View } from 'react-native';
 import styled from 'styled-components';
+import { MediumText } from '~planner/components';
+import { colors } from '~planner/constants';
+import { taskContainer } from '~planner/data';
+import { useContainer } from '~planner/hooks';
+import { Task as TaskInterface } from '~planner/types';
 import { Task } from '../Task';
 
 const Header = styled(View)`

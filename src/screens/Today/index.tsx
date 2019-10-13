@@ -1,3 +1,5 @@
+import moment from 'moment';
+import * as React from 'react';
 import {
   AddTaskButton,
   LargeText,
@@ -5,13 +7,11 @@ import {
   ScreenWrapper,
   TaskList,
   WeekBar,
-} from '@planner/components';
-import { selectTasksForDay, taskContainer } from '@planner/data';
-import { useContainer } from '@planner/hooks';
-import { Navigation, Task } from '@planner/types';
-import { getDeltaWeeksFromDate, getWeek, isInPast } from '@planner/utils';
-import moment from 'moment';
-import * as React from 'react';
+} from '~planner/components';
+import { selectTasksForDay, taskContainer } from '~planner/data';
+import { useContainer } from '~planner/hooks';
+import { Navigation, Task } from '~planner/types';
+import { getDeltaWeeksFromDate, getWeek, isInPast } from '~planner/utils';
 import { createSections } from './helpers';
 
 export const Today: React.FC<Navigation> = ({ navigation }) => {

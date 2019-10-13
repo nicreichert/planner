@@ -1,7 +1,7 @@
-import { colors } from '@planner/constants';
 import * as React from 'react';
 import { TextInput, TextInputProps } from 'react-native';
 import styled from 'styled-components';
+import { colors } from '~planner/constants';
 import { InputType } from '../types';
 
 const Field = styled(TextInput)`

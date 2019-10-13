@@ -1,5 +1,5 @@
-import { Group } from '@planner/types';
 import asyncStorage from '@react-native-community/async-storage';
+import { Group } from '~planner/types';
 
 const DATA_KEY = '__GROUPS__';
 

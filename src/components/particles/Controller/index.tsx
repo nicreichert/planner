@@ -1,7 +1,7 @@
-import { Header, Icon, IconType } from '@planner/components';
-import { colors } from '@planner/constants';
 import * as React from 'react';
 import { TouchableOpacity, View } from 'react-native';
+import { Header, Icon, IconType } from '~planner/components';
+import { colors } from '~planner/constants';
 
 interface Props {
   onPressLeft: () => void;

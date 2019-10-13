@@ -1,9 +1,9 @@
-import { AddTaskButton, Controller, LargeText, ScreenWrapper, TaskList } from '@planner/components';
-import { taskContainer } from '@planner/data';
-import { useContainer } from '@planner/hooks';
-import { Navigation, Task } from '@planner/types';
 import moment from 'moment';
 import * as React from 'react';
+import { AddTaskButton, Controller, LargeText, ScreenWrapper, TaskList } from '~planner/components';
+import { taskContainer } from '~planner/data';
+import { useContainer } from '~planner/hooks';
+import { Navigation, Task } from '~planner/types';
 import { createSections, getHeaderText } from './helpers';
 
 export const Week: React.FC<Navigation> = ({ navigation }) => {

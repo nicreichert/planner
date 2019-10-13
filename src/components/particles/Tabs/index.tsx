@@ -1,5 +1,5 @@
-import { BaseText } from '@planner/components';
 import * as React from 'react';
+import { BaseText } from '~planner/components';
 import { Tab, Wrapper } from './styled';
 
 interface Props<T> {

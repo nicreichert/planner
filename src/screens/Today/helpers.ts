@@ -1,6 +1,6 @@
-import { filterTasksByShift } from '@planner/data';
-import { Shift, Task } from '@planner/types';
 import { Moment } from 'moment';
+import { filterTasksByShift } from '~planner/data';
+import { Shift, Task } from '~planner/types';
 
 export const createSections = (data: Task[], activeDay: Moment) => [
   {

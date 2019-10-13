@@ -1,7 +1,7 @@
-import { Icon, IconType } from '@planner/components';
-import { colors } from '@planner/constants';
 import * as React from 'react';
 import { CheckBoxProps, TouchableOpacity } from 'react-native';
+import { Icon, IconType } from '~planner/components';
+import { colors } from '~planner/constants';
 import { InputType } from '../types';
 
 export interface CheckboxInterface extends CheckBoxProps {

@@ -11,7 +11,7 @@
     "module": "esnext",
     "noEmit": true,
     "paths": {
-      "@planner/*": ["*"]
+      "~planner/*": ["*"]
     },
     "strict": true,
     "target": "esnext"

@@ -1,6 +1,6 @@
-import { colors } from '@planner/constants';
 import { TouchableOpacity, View } from 'react-native';
 import styled from 'styled-components';
+import { colors } from '~planner/constants';
 
 export const Wrapper = styled(View)`
   border-color: ${colors.primary};
