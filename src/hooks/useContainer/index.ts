@@ -7,7 +7,7 @@ const emittersMap = new Map<Container<any>, BehaviorSubject<any>>();
 
 const getContainer = <C>(c: Class<Container<any>>): Container<C> => {
   if (!containersMap.has(c)) containersMap.set(c, new c());
-  return containersMap.get(c)!;
+  return containersMap.get(c) as Container<C>;
 };
 
 const getEmitter = (container: Container<any>): BehaviorSubject<any> => {
@@ -15,7 +15,7 @@ const getEmitter = (container: Container<any>): BehaviorSubject<any> => {
     const emitter = new BehaviorSubject(container);
     emittersMap.set(container, emitter);
   }
-  return emittersMap.get(container)!;
+  return emittersMap.get(container) as BehaviorSubject<any>;
 };
 
 export const clearListeners = () => {
@@ -61,5 +61,6 @@ export function useContainer<C extends Container>(container: C | Class<C>): C {
   React.useEffect(() => subscribeListener(instance, () => setCounter(counter => counter + 1)), [
     instance,
   ]);
+
   return instance;
 }
