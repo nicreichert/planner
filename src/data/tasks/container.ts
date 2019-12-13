@@ -3,6 +3,9 @@ import moment, { Moment } from 'moment';
 import update from 'ramda/es/update';
 import { Container } from '~planner/hooks';
 import { Task } from '~planner/types';
+import { database } from '../setup';
+
+console.log(database);
 
 const DATA_KEY = '__TASKS__';
 
@@ -37,7 +40,10 @@ export default class TaskContainer extends Container<State> {
   }
 
   public addTask = async (task: Task) =>
-    this.setState(s => ({ tasks: [...s.tasks, task] }), s => setTasksData(s.tasks));
+    this.setState(
+      s => ({ tasks: [...s.tasks, task] }),
+      s => setTasksData(s.tasks)
+    );
 
   public removeTask = async (taskId: string) =>
     this.setState(
@@ -66,7 +72,11 @@ export default class TaskContainer extends Container<State> {
   public updateTask = async (task: Task) =>
     this.setState(
       s => ({
-        tasks: update(s.tasks.findIndex(t => t.id === task.id), task, s.tasks),
+        tasks: update(
+          s.tasks.findIndex(t => t.id === task.id),
+          task,
+          s.tasks
+        ),
       }),
       s => setTasksData(s.tasks)
     );

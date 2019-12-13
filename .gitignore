@@ -258,3 +258,5 @@ iOSInjectionProject/
 
 dist/
 build/
+
+!debug.keystore

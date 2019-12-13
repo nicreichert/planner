@@ -1,5 +1,6 @@
 const fs = require('fs');
 const { join } = require('path');
+const chokidar = require('chokidar');
 
 const getDirectories = source =>
   fs
@@ -21,9 +22,6 @@ const getFiles = source =>
           .split('.')[0]
     );
 
-// process.argv.splice(0, 2);
-
-// const paths = process.argv.map(p => join(process.cwd(), p));
 const paths = [
   'src/components',
   'src/components/atoms',
@@ -34,14 +32,31 @@ const paths = [
   'src/screens',
 ];
 
-paths.forEach(p => {
-  const entries = getDirectories(p).length ? getDirectories(p) : getFiles(p);
+const updateExports = () => {
+  paths.forEach(p => {
+    const entries = getDirectories(p).length ? getDirectories(p) : getFiles(p);
 
-  const imports = entries.reduce((acc, folder) => `${acc}export * from './${folder}';\n`, '');
+    const imports = entries.reduce((acc, folder) => `${acc}export * from './${folder}';\n`, '');
 
-  fs.writeFile(`${p}/index.ts`, imports, err => {
-    if (err) {
-      return console.log(err);
-    }
+    fs.writeFile(`${p}/index.ts`, imports, err => {
+      if (err) {
+        return console.log(err);
+      }
+    });
   });
-});
+};
+
+chokidar
+  .watch(paths.map(p => `${p}/*`), {
+    persistent: true,
+    awaitWriteFinish: {
+      stabilityThreshold: 2000,
+      pollInterval: 100,
+    },
+    ignored: '*/index.ts',
+  })
+  .on('all', () => {
+    updateExports();
+  });
+
+updateExports();
