@@ -1,7 +1,7 @@
-import * as React from 'react';
-import Svg, { G, Path } from 'react-native-svg';
-import { colors } from '~planner/constants';
-import { BaseProps } from '../types';
+import * as React from 'react'
+import Svg, { G, Path } from 'react-native-svg'
+import { colors } from '~planner/constants'
+import { BaseProps } from '../types'
 
 export const Trash = ({ width = 59, size, height = 59, color = colors.black }: BaseProps) => (
   <Svg width={size || width} height={size || height} viewBox="0 0 59 59">
@@ -19,4 +19,4 @@ export const Trash = ({ width = 59, size, height = 59, color = colors.black }: B
       />
     </G>
   </Svg>
-);
+)

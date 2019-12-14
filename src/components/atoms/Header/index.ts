@@ -1,6 +1,6 @@
-import { View } from 'react-native';
-import styled, { css } from 'styled-components';
-import { colors } from '~planner/constants';
+import { View } from 'react-native'
+import styled, { css } from 'styled-components'
+import { colors } from '~planner/constants'
 
 export const HeaderStyle = css`
   flex-direction: row;
@@ -14,8 +14,8 @@ export const HeaderStyle = css`
 
   border-bottom-width: 0.5px;
   border-bottom-color: ${colors.primaryText};
-`;
+`
 
 export const Header = styled(View)`
   ${HeaderStyle};
-`;
+`

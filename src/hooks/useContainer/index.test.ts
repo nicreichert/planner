@@ -1,5 +1,5 @@
-import { renderHook, act } from 'react-hooks-testing-library';
-import { Container, useContainer } from '.';
+import { renderHook, act } from 'react-hooks-testing-library'
+import { Container, useContainer } from '.'
 
 /**
  *  Tests for simple container
@@ -11,9 +11,9 @@ interface State {
 class Num extends Container<State> {
   state = {
     num: 0,
-  };
+  }
 
-  public setNum = (num: number) => this.setState({ num });
+  public setNum = (num: number) => this.setState({ num })
 }
 
 /**
@@ -22,7 +22,7 @@ class Num extends Container<State> {
 interface ObjectContainerState {
   name: string;
   age: number;
-  items: Array<string>;
+  items: string[];
 }
 
 class ObjectContainer extends Container<ObjectContainerState> {
@@ -30,37 +30,37 @@ class ObjectContainer extends Container<ObjectContainerState> {
     name: '',
     age: 0,
     items: [] as string[],
-  };
+  }
 
-  public setName = (name: string) => this.setState({ name });
+  public setName = (name: string) => this.setState({ name })
 
-  public setAge = (age: number) => this.setState({ age });
+  public setAge = (age: number) => this.setState({ age })
 
-  public addItem = (item: string) => this.setState(s => ({ items: [...s.items, item] }));
+  public addItem = (item: string) => this.setState(s => ({ items: [...s.items, item] }))
 }
 
 describe('`useContainer` tests', () => {
   it('Sets num', () => {
-    const { result } = renderHook(() => useContainer(Num));
-    const container = result.current;
+    const { result } = renderHook(() => useContainer(Num))
+    const container = result.current
 
-    expect(container.state.num).toBe(0);
+    expect(container.state.num).toBe(0)
 
-    act(() => container.setNum(12));
-    expect(container.state.num).toBe(12);
-  });
+    act(() => container.setNum(12))
+    expect(container.state.num).toBe(12)
+  })
 
   it('Updates state with complex object', () => {
-    const { result } = renderHook(() => useContainer(ObjectContainer));
-    const container = result.current;
+    const { result } = renderHook(() => useContainer(ObjectContainer))
+    const container = result.current
 
-    act(() => container.setAge(12));
-    expect(container.state.age).toBe(12);
+    act(() => container.setAge(12))
+    expect(container.state.age).toBe(12)
 
-    act(() => container.setName('Nic'));
-    expect(container.state.name).toBe('Nic');
+    act(() => container.setName('Nic'))
+    expect(container.state.name).toBe('Nic')
 
-    act(() => container.addItem('Ball'));
-    expect(container.state.items.length).toBe(1);
-  });
-});
+    act(() => container.addItem('Ball'))
+    expect(container.state.items.length).toBe(1)
+  })
+})

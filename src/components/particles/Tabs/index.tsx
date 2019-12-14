@@ -1,6 +1,6 @@
-import * as React from 'react';
-import { BaseText } from '~planner/components';
-import { Tab, Wrapper } from './styled';
+import * as React from 'react'
+import { BaseText } from '~planner/components'
+import { Tab, Wrapper } from './styled'
 
 interface Props<T> {
   tabs: {
@@ -14,7 +14,7 @@ interface Props<T> {
 }
 
 export const Tabs = <T extends any>({ tabs, activeTab, onChange }: Props<T>) => {
-  const currentTab = tabs.find(t => t.value === activeTab);
+  const currentTab = tabs.find(t => t.value === activeTab)
   return (
     <>
       <Wrapper>
@@ -23,8 +23,8 @@ export const Tabs = <T extends any>({ tabs, activeTab, onChange }: Props<T>) => 
             key={tab.label}
             active={tab.value === activeTab}
             onPress={() => {
-              tab.onSelected && tab.onSelected();
-              onChange(tab.value);
+              tab.onSelected && tab.onSelected()
+              onChange(tab.value)
             }}
           >
             <BaseText alt={tab.value === activeTab}>{tab.label}</BaseText>
@@ -33,5 +33,5 @@ export const Tabs = <T extends any>({ tabs, activeTab, onChange }: Props<T>) => 
       </Wrapper>
       {currentTab && currentTab.children}
     </>
-  );
-};
+  )
+}

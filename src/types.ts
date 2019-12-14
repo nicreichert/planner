@@ -1,5 +1,5 @@
-import { Moment } from 'moment';
-import { NavigationParams, NavigationScreenProp, NavigationState } from 'react-navigation';
+import { Moment } from 'moment'
+import { NavigationParams, NavigationScreenProp, NavigationState } from 'react-navigation'
 
 export enum Shift {
   MORNING = 'MORNING',
@@ -14,7 +14,7 @@ export enum RecurrencyType {
   NONE = 'NONE',
 }
 
-export type DayOfWeek = 'Sun' | 'Mon' | 'Tue' | 'Wed' | 'Thu' | 'Fri' | 'Sat';
+export type DayOfWeek = 'Sun' | 'Mon' | 'Tue' | 'Wed' | 'Thu' | 'Fri' | 'Sat'
 
 export interface Group {
   description: string;
@@ -28,23 +28,23 @@ export interface TaskNote {
 }
 
 export interface Task {
-  completed: Array<Moment>;
+  completed: Moment[];
   date: Moment;
   description?: string;
-  groupId?: Array<string>;
+  groupId?: string[];
   id: string;
   name: string;
-  notes: Array<TaskNote>;
+  notes: TaskNote[];
   recurrencyType: RecurrencyType;
-  recurrency?: Array<DayOfWeek> | number;
+  recurrency?: DayOfWeek[] | number;
   repetitions: number;
   completedRepetitions: number;
   shift: Shift;
 }
 
 export interface AppData {
-  groups: Array<Group>;
-  tasks: Array<Task>;
+  groups: Group[];
+  tasks: Task[];
 }
 
 export interface Navigation {

@@ -1,85 +1,117 @@
-import asyncStorage from '@react-native-community/async-storage';
-import moment, { Moment } from 'moment';
-import update from 'ramda/es/update';
-import { Container } from '~planner/hooks';
-import { Task } from '~planner/types';
-import { database } from '../setup';
+import moment, { Moment } from 'moment'
+import { Omit, Optional } from 'utility-types'
+import uuid from 'uuid'
+import { Container } from '~planner/hooks'
+import { RecurrencyType, Shift, Task, TaskNote } from '~planner/types'
+import { database } from '../setup'
 
-console.log(database);
-
-const DATA_KEY = '__TASKS__';
-
-export const getTasks = async () => {
-  const data = await asyncStorage.getItem(DATA_KEY);
-  const parsedData = JSON.parse(data || '') as Task[];
-
-  return parsedData.map(task => ({
+const mapTasks = (tasks: Task[]) =>
+  tasks.map(task => ({
     ...task,
     date: moment(task.date),
     completed: task.completed.map(c => moment(c)),
-  }));
-};
-
-export const setTasksData = (data: Task[]) => {
-  asyncStorage.setItem(DATA_KEY, JSON.stringify(data));
-};
+  }))
 
 interface State {
   tasks: Task[];
 }
 
+const baseTask: Omit<Task, 'id' | 'name' | 'date'> = {
+  completed: [] as Moment[],
+  notes: [] as TaskNote[],
+  repetitions: 0,
+  completedRepetitions: 0,
+  shift: Shift.MORNING,
+  recurrencyType: RecurrencyType.NONE,
+  recurrency: 0,
+}
+
 export default class TaskContainer extends Container<State> {
   public constructor() {
-    super();
+    super()
 
     this.state = {
       tasks: [] as Task[],
-    };
+    }
 
-    getTasks().then(tasks => this.setState({ tasks: tasks || ([] as Task[]) }));
+    database
+      .then(db => db.tasks.find().exec())
+      .then(items => items.map(i => i.get()))
+      .then(mapTasks)
+      .then(tasks => this.setState({ tasks }, console.log))
+
+    database.then(db => {
+      db.tasks.$.subscribe(() => {
+        db.tasks
+          .find()
+          .exec()
+          .then(items => items.map(i => i.get()))
+          .then(mapTasks)
+          .then(tasks => this.setState({ tasks }, console.log))
+      })
+    })
   }
 
-  public addTask = async (task: Task) =>
-    this.setState(
-      s => ({ tasks: [...s.tasks, task] }),
-      s => setTasksData(s.tasks)
-    );
+  public addTask = async (task: Omit<Optional<Task>, 'id'>) =>
+    database.then(db =>
+      db.tasks.insert({
+        id: uuid(),
+        ...baseTask,
+        ...task,
+        date: (task.date as Moment).toISOString(),
+      })
+    )
 
   public removeTask = async (taskId: string) =>
-    this.setState(
-      s => ({ tasks: s.tasks.filter(t => t.id !== taskId) }),
-      s => setTasksData(s.tasks)
-    );
+    database.then(db =>
+      db.tasks
+        .findOne()
+        .where('id')
+        .eq(taskId)
+        .exec()
+        .then(val => val && val.remove())
+    )
 
-  private completeTask = async (task: Task, completion: Moment) => {
-    task.completed.push(completion);
-    return this.updateTask(task);
-  };
+  private completeTask = async (task: Task, completion: Moment) =>
+    database.then(db =>
+      db.tasks
+        .findOne()
+        .where('id')
+        .eq(task.id)
+        .exec()
+        .then(val =>
+          val.update({
+            $set: {
+              completed: [...val.get('completed'), completion.toISOString()],
+            },
+          })
+        )
+    )
 
-  private uncompleteTask = async (task: Task, completion: Moment) => {
-    task.completed = task.completed.filter(c => !c.isSame(completion, 'day'));
-    return this.updateTask(task);
-  };
+  private uncompleteTask = async (task: Task, completion: Moment) =>
+    database.then(db =>
+      db.tasks
+        .findOne()
+        .where('id')
+        .eq(task.id)
+        .exec()
+        .then(val =>
+          val.update({
+            $set: {
+              completed: val.get('completed').filter((c: string) => c !== completion.toISOString()),
+            },
+          })
+        )
+    )
 
   public toggleComplete = async (task: Task, completion: Moment) => {
-    if (task.completed.find(c => c.isSame(completion, 'day'))) {
-      this.uncompleteTask(task, completion);
+    const completionTime = task.completed.find(c => c.isSame(completion, 'day'))
+    if (completionTime) {
+      this.uncompleteTask(task, completionTime)
     } else {
-      this.completeTask(task, completion);
+      this.completeTask(task, completion)
     }
-  };
-
-  public updateTask = async (task: Task) =>
-    this.setState(
-      s => ({
-        tasks: update(
-          s.tasks.findIndex(t => t.id === task.id),
-          task,
-          s.tasks
-        ),
-      }),
-      s => setTasksData(s.tasks)
-    );
+  }
 }
 
-export const taskContainer = new TaskContainer();
+export const taskContainer = new TaskContainer()

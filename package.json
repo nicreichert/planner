@@ -8,6 +8,7 @@
     "run-android": "react-native run-android",
     "test": "jest",
     "lint": "eslint .",
+    "prettier": "prettier src/**/*.tsx src/**/*.tsx",
     "postinstall": "(cd ios && pod install)",
     "create-exports": "node ./scripts/createExports.js"
   },
@@ -68,6 +69,7 @@
     "lint-staged": "^9.2.1",
     "metro-react-native-babel-preset": "^0.56.0",
     "prettier": "^1.18.2",
+    "react-hooks-testing-library": "^0.6.0",
     "stylelint": "^10.1.0",
     "stylelint-config-recommended": "^2.2.0",
     "stylelint-config-styled-components": "^0.1.1",

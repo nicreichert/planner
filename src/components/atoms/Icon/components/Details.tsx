@@ -1,7 +1,7 @@
-import * as React from 'react';
-import Svg, { G, Path } from 'react-native-svg';
-import { colors } from '~planner/constants';
-import { BaseProps } from '../types';
+import * as React from 'react'
+import Svg, { G, Path } from 'react-native-svg'
+import { colors } from '~planner/constants'
+import { BaseProps } from '../types'
 
 export const Details = ({ width = 50, size, height = 50, color = colors.black }: BaseProps) => (
   <Svg width={size || width} height={size || height} viewBox="0 0 503 503">
@@ -21,4 +21,4 @@ export const Details = ({ width = 50, size, height = 50, color = colors.black }:
       <Path d="m230.859375 202.324219c-1.992187-.996094-4.300781-1.160157-6.410156-.453125-2.113281.703125-3.859375 2.21875-4.855469 4.214844l-25.179688 50.359374c-2.070312 4.148438-.386718 9.191407 3.761719 11.261719 4.148438 2.074219 9.191407.390625 11.261719-3.757812l25.179688-50.359375c.996093-1.992188 1.160156-4.300782.457031-6.414063-.707031-2.113281-2.222657-3.859375-4.214844-4.851562zm0 0" />
     </G>
   </Svg>
-);
+)

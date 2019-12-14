@@ -1,4 +1,4 @@
-export * from './theme';
+export * from './theme'
 
 export const weekDays = [
   'Sunday',
@@ -8,4 +8,4 @@ export const weekDays = [
   'Thursday',
   'Friday',
   'Saturday',
-];
+]

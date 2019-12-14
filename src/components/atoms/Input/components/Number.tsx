@@ -1,19 +1,19 @@
-import * as React from 'react';
-import { TextInput, TextInputProps, TouchableOpacity, View } from 'react-native';
-import styled from 'styled-components';
-import { space, SpaceProps } from 'styled-system';
-import { Icon, IconType } from '~planner/components';
-import { colors } from '~planner/constants';
-import { InputType } from '../types';
+import * as React from 'react'
+import { TextInput, TextInputProps, TouchableOpacity, View } from 'react-native'
+import styled from 'styled-components'
+import { space, SpaceProps } from 'styled-system'
+import { Icon, IconType } from '~planner/components'
+import { colors } from '~planner/constants'
+import { InputType } from '../types'
 
 const Wrapper = styled(View)`
   flex-direction: row;
-`;
+`
 
 const Field = styled(TextInput)`
   flex-grow: 1;
   color: ${colors.primaryText};
-`;
+`
 
 const Button = styled(TouchableOpacity)<SpaceProps>`
   width: 30px;
@@ -23,12 +23,12 @@ const Button = styled(TouchableOpacity)<SpaceProps>`
   justify-content: center;
 
   ${space};
-`;
+`
 
 const ButtonWrapper = styled(View)`
   flex-shrink: 1;
   flex-direction: row;
-`;
+`
 
 export interface NumberInterface extends TextInputProps {
   type: InputType.NUMBER;
@@ -47,4 +47,4 @@ export const NumberInput: React.FC<NumberInterface> = ({ onChangeNumber, value, 
       </Button>
     </ButtonWrapper>
   </Wrapper>
-);
+)

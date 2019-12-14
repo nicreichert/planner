@@ -1,7 +1,7 @@
-import * as React from 'react';
-import Svg, { Path } from 'react-native-svg';
-import { colors } from '~planner/constants';
-import { BaseProps } from '../types';
+import * as React from 'react'
+import Svg, { Path } from 'react-native-svg'
+import { colors } from '~planner/constants'
+import { BaseProps } from '../types'
 
 export const Edit = ({ width = 55.25, size, height = 55.25, color = colors.black }: BaseProps) => (
   <Svg width={size || width} height={size || height} viewBox="0 0 55.25 55.25">
@@ -26,4 +26,4 @@ export const Edit = ({ width = 55.25, size, height = 55.25, color = colors.black
 	l-3.183,0.354L34.94,10.409l9.9,9.9L17.157,47.992L17.511,44.809z M49.082,16.067l-9.9-9.9l1.415-1.415l9.9,9.9L49.082,16.067z"
     />
   </Svg>
-);
+)

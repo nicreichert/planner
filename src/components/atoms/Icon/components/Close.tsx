@@ -1,7 +1,7 @@
-import * as React from 'react';
-import Svg, { G, Path } from 'react-native-svg';
-import { colors } from '~planner/constants';
-import { BaseProps } from '../types';
+import * as React from 'react'
+import Svg, { G, Path } from 'react-native-svg'
+import { colors } from '~planner/constants'
+import { BaseProps } from '../types'
 
 export const Close = ({ width = 52, size, height = 52, color = colors.black }: BaseProps) => (
   <Svg width={size || width} height={size || height} viewBox="0 0 52 52">
@@ -18,4 +18,4 @@ export const Close = ({ width = 52, size, height = 52, color = colors.black }: B
       />
     </G>
   </Svg>
-);
+)

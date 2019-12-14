@@ -36,7 +36,6 @@ target 'Planner' do
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
 
-  pod 'RNSqlite2', :path => '../node_modules/react-native-sqlite-2'
 
   target 'PlannerTests' do
     inherit! :search_paths

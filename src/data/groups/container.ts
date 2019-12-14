@@ -1,6 +1,6 @@
-import { Container } from '~planner/hooks';
-import { Group } from '~planner/types';
-import { loadGroups } from './storage';
+import { Container } from '~planner/hooks'
+import { Group } from '~planner/types'
+import { loadGroups } from './storage'
 
 interface State {
   groups: Group[];
@@ -8,10 +8,10 @@ interface State {
 
 export default class GroupContainer extends Container<State> {
   public constructor() {
-    super();
+    super()
 
-    loadGroups().then(groups => this.setState({ groups }));
+    loadGroups().then(groups => this.setState({ groups }))
   }
 }
 
-export const groupContainer = new GroupContainer();
+export const groupContainer = new GroupContainer()

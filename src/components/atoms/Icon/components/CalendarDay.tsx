@@ -1,7 +1,7 @@
-import * as React from 'react';
-import Svg, { G, Path } from 'react-native-svg';
-import { colors } from '~planner/constants';
-import { BaseProps } from '../types';
+import * as React from 'react'
+import Svg, { G, Path } from 'react-native-svg'
+import { colors } from '~planner/constants'
+import { BaseProps } from '../types'
 
 export const CalendarDay = ({ width = 58, size, height = 58, color = colors.black }: BaseProps) => (
   <Svg width={size || width} height={size || height} viewBox="0 0 58 58">
@@ -32,4 +32,4 @@ export const CalendarDay = ({ width = 58, size, height = 58, color = colors.blac
       />
     </G>
   </Svg>
-);
+)

@@ -14,7 +14,7 @@ export const colors2 = {
   // darkBlue: '#0d445f',
   // mediumBlue: '#0f5d82',
   // lightBlue: '#87a8b7',
-};
+}
 
 export const colors = {
   primary: '#B9C0DA', // light blue
@@ -32,4 +32,4 @@ export const colors = {
   // darkBlue: '#0d445f',
   // mediumBlue: '#0f5d82',
   // lightBlue: '#87a8b7',
-};
+}

@@ -1,7 +1,7 @@
-import * as React from 'react';
-import Svg, { G, Path } from 'react-native-svg';
-import { colors } from '~planner/constants';
-import { BaseProps } from '../types';
+import * as React from 'react'
+import Svg, { G, Path } from 'react-native-svg'
+import { colors } from '~planner/constants'
+import { BaseProps } from '../types'
 
 export const Stopwatch = ({ width = 60, size, height = 60, color = colors.black }: BaseProps) => (
   <Svg width={size || width} height={size || height} viewBox="0 0 60 60">
@@ -71,4 +71,4 @@ export const Stopwatch = ({ width = 60, size, height = 60, color = colors.black 
       />
     </G>
   </Svg>
-);
+)

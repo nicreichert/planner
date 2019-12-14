@@ -1,10 +1,10 @@
-import { Moment } from 'moment';
-import * as React from 'react';
-import { View } from 'react-native';
-import { BaseText, Icon, IconType, Input, InputType } from '~planner/components';
-import { colors } from '~planner/constants';
-import { Task as TaskInterface } from '~planner/types';
-import { Wrapper } from './styled';
+import { Moment } from 'moment'
+import * as React from 'react'
+import { View } from 'react-native'
+import { BaseText, Icon, IconType, Input, InputType } from '~planner/components'
+import { colors } from '~planner/constants'
+import { Task as TaskInterface } from '~planner/types'
+import { Wrapper } from './styled'
 
 interface Props {
   activeDay: Moment;
@@ -14,7 +14,7 @@ interface Props {
 }
 
 export const Task = ({ activeDay, onOpenDetails, onToggleComplete, task }: Props) => {
-  const completed = Boolean(task.completed.find(c => c.isSame(activeDay, 'day')));
+  const completed = Boolean(task.completed.find(c => c.isSame(activeDay, 'day')))
 
   return (
     <Wrapper completed={completed} onPress={() => onOpenDetails(task)}>
@@ -29,5 +29,5 @@ export const Task = ({ activeDay, onOpenDetails, onToggleComplete, task }: Props
         <Icon type={IconType.ARROW} size={20} color={colors.primaryText} />
       </View>
     </Wrapper>
-  );
-};
+  )
+}

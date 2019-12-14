@@ -1,10 +1,10 @@
-import { Dimensions } from 'react-native';
-import styled from 'styled-components';
-import { ButtonWrapper } from '../Button';
+import { Dimensions } from 'react-native'
+import styled from 'styled-components'
+import { ButtonWrapper } from '../Button'
 
-const dim = Dimensions.get('window');
+const dim = Dimensions.get('window')
 
-const size = dim.width === 320 ? '35px' : '45px';
+const size = dim.width === 320 ? '35px' : '45px'
 
 export const DayButton = styled(ButtonWrapper)`
   flex-grow: 0;
@@ -16,4 +16,4 @@ export const DayButton = styled(ButtonWrapper)`
   max-width: ${size};
 
   border-radius: 10px;
-`;
+`

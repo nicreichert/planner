@@ -1,2 +1,2 @@
-export * from './CreateTask';
-export * from './TaskDetails';
+export * from './CreateTask'
+export * from './TaskDetails'

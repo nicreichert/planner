@@ -1,7 +1,7 @@
-import * as React from 'react';
-import { TouchableOpacity, View } from 'react-native';
-import { Header, Icon, IconType } from '~planner/components';
-import { colors } from '~planner/constants';
+import * as React from 'react'
+import { TouchableOpacity, View } from 'react-native'
+import { Header, Icon, IconType } from '~planner/components'
+import { colors } from '~planner/constants'
 
 interface Props {
   onPressLeft: () => void;
@@ -20,4 +20,4 @@ export const Controller: React.FC<Props> = ({ children, onPressLeft, onPressRigh
       <Icon type={IconType.ARROW} size={20} color={colors.primaryText} />
     </TouchableOpacity>
   </Header>
-);
+)
