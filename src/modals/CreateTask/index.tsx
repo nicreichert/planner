@@ -1,6 +1,5 @@
 import moment, { Moment } from 'moment'
 import * as React from 'react'
-import uuid from 'uuid'
 import {
   BaseText,
   Button,
@@ -39,13 +38,9 @@ export const CreateTaskModal: React.FC<Navigation> = ({ navigation }) => {
 
     tasksContainer
       .addTask({
-        id: uuid(),
-        completed: [],
         name,
-        notes: [],
         description,
         repetitions,
-        completedRepetitions: 0,
         shift,
         date,
         recurrencyType,

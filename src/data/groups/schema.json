@@ -1,0 +1,19 @@
+{
+  "title": "group schema",
+  "version": 0,
+  "description": "describes a group",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "primary": true
+    },
+    "name": {
+      "type": "string"
+    },
+    "color": {
+      "type": "string"
+    }
+  },
+  "required": ["name"]
+}

@@ -1,4 +1,4 @@
-import { renderHook, act } from 'react-hooks-testing-library'
+import { act, renderHook } from 'react-hooks-testing-library'
 import { Container, useContainer } from '.'
 
 /**

@@ -38,7 +38,7 @@ export default class TaskContainer extends Container<State> {
       .then(db => db.tasks.find().exec())
       .then(items => items.map(i => i.get()))
       .then(mapTasks)
-      .then(tasks => this.setState({ tasks }, console.log))
+      .then(tasks => this.setState({ tasks }))
 
     database.then(db => {
       db.tasks.$.subscribe(() => {
@@ -47,7 +47,7 @@ export default class TaskContainer extends Container<State> {
           .exec()
           .then(items => items.map(i => i.get()))
           .then(mapTasks)
-          .then(tasks => this.setState({ tasks }, console.log))
+          .then(tasks => this.setState({ tasks }))
       })
     })
   }
@@ -65,9 +65,7 @@ export default class TaskContainer extends Container<State> {
   public removeTask = async (taskId: string) =>
     database.then(db =>
       db.tasks
-        .findOne()
-        .where('id')
-        .eq(taskId)
+        .findOne(taskId)
         .exec()
         .then(val => val && val.remove())
     )
@@ -75,9 +73,7 @@ export default class TaskContainer extends Container<State> {
   private completeTask = async (task: Task, completion: Moment) =>
     database.then(db =>
       db.tasks
-        .findOne()
-        .where('id')
-        .eq(task.id)
+        .findOne(task.id)
         .exec()
         .then(val =>
           val.update({
@@ -91,9 +87,7 @@ export default class TaskContainer extends Container<State> {
   private uncompleteTask = async (task: Task, completion: Moment) =>
     database.then(db =>
       db.tasks
-        .findOne()
-        .where('id')
-        .eq(task.id)
+        .findOne(task.id)
         .exec()
         .then(val =>
           val.update({
