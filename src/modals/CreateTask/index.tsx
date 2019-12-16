@@ -15,42 +15,53 @@ import {
 import { weekDays } from '~planner/constants'
 import { taskContainer } from '~planner/data/tasks'
 import { useContainer } from '~planner/hooks'
-import { DayOfWeek, Navigation, RecurrencyType, Shift } from '~planner/types'
+import { DayOfWeek, Navigation, RecurrencyType, Shift, Task } from '~planner/types'
 
 export const CreateTaskModal: React.FC<Navigation> = ({ navigation }) => {
   const activeDay = navigation.getParam('activeDay') as Moment
-
   const tasksContainer = useContainer(taskContainer)
+  const taskId = navigation.getParam('taskId') as string
+  const task = taskId ? (tasksContainer.getTask(taskId) as Task) : ({} as Task)
 
-  const [name, setName] = React.useState('')
-  const [description, setDescription] = React.useState('')
-  const [repetitions, setRepetitions] = React.useState(1)
-  const [shift, setShift] = React.useState<Shift>(Shift.MORNING)
+  const [name, setName] = React.useState(task.name || '')
+  const [description, setDescription] = React.useState(task.description || '')
+  const [repetitions, setRepetitions] = React.useState(task.repetitions || 1)
+  const [shift, setShift] = React.useState<Shift>(task.shift || Shift.MORNING)
   const [date, setDate] = React.useState(activeDay || moment())
-  const [recurrency, setRecurrency] = React.useState(0)
-  const [daysRecurrency, setDaysRecurrency] = React.useState([] as DayOfWeek[])
-  const [recurrencyType, setRecurrencyType] = React.useState(RecurrencyType.NONE)
+  const [recurrency, setRecurrency] = React.useState(
+    task.recurrencyType === RecurrencyType.TIMES_PER_WEEK ? task.recurrency : 0
+  )
+  const [daysRecurrency, setDaysRecurrency] = React.useState(
+    (task.recurrencyType === RecurrencyType.WEEK_DAYS ? task.recurrency : []) as DayOfWeek[]
+  )
+  const [recurrencyType, setRecurrencyType] = React.useState(
+    task.recurrencyType || RecurrencyType.NONE
+  )
 
   const onSubmit = () => {
     if (!name) {
       return
     }
 
-    tasksContainer
-      .addTask({
-        name,
-        description,
-        repetitions,
-        shift,
-        date,
-        recurrencyType,
-        recurrency: recurrencyType === RecurrencyType.WEEK_DAYS ? daysRecurrency : recurrency,
-      })
-      .then(() => navigation.goBack())
+    const baseTask = {
+      name,
+      description,
+      repetitions,
+      shift,
+      date,
+      recurrencyType,
+      recurrency: recurrencyType === RecurrencyType.WEEK_DAYS ? daysRecurrency : recurrency,
+    }
+
+    if (taskId) {
+      tasksContainer.updateTask(task.id, baseTask).then(() => navigation.goBack())
+    } else {
+      tasksContainer.addTask(baseTask).then(() => navigation.goBack())
+    }
   }
 
   return (
-    <ModalWrapper title="Create Task">
+    <ModalWrapper title={taskId ? 'Edit Task' : 'Create Task'}>
       <ScreenWrapper>
         <Input type={InputType.TEXT} label={'Task'} value={name} onChangeText={setName} />
 
@@ -107,7 +118,7 @@ export const CreateTaskModal: React.FC<Navigation> = ({ navigation }) => {
             {
               label: 'Week Days',
               value: RecurrencyType.WEEK_DAYS,
-              onSelected: () => setDaysRecurrency([]),
+              onSelected: () => setDaysRecurrency([] as DayOfWeek[]),
               children: (
                 <Row justifyContent="space-between">
                   {weekDays.map(day => {
@@ -134,7 +145,7 @@ export const CreateTaskModal: React.FC<Navigation> = ({ navigation }) => {
           activeTab={recurrencyType}
           onChange={setRecurrencyType}
         />
-        <Button mt={20} label={'Create Task'} onPress={onSubmit} />
+        <Button mt={20} label={'Save'} onPress={onSubmit} />
       </ScreenWrapper>
     </ModalWrapper>
   )

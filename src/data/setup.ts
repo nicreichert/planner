@@ -12,7 +12,7 @@ export const database = new Promise<RxDB.RxDatabase>(resolve => {
   RxDB.create({
     name: 'myplannerdb',
     adapter: 'asyncstorage',
-    multiInstance: true,
+    multiInstance: false,
   }).then(data =>
     Promise.all([
       data.collection({

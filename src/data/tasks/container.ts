@@ -13,7 +13,7 @@ const mapTasks = (tasks: Task[]) =>
   }))
 
 interface State {
-  tasks: Task[];
+  tasks: Task[]
 }
 
 const baseTask: Omit<Task, 'id' | 'name' | 'date'> = {
@@ -52,6 +52,8 @@ export default class TaskContainer extends Container<State> {
     })
   }
 
+  public getTask = (id: string) => this.state.tasks.find(t => t.id === id)
+
   public addTask = async (task: Omit<Optional<Task>, 'id'>) =>
     database.then(db =>
       db.tasks.insert({
@@ -60,6 +62,22 @@ export default class TaskContainer extends Container<State> {
         ...task,
         date: (task.date as Moment).toISOString(),
       })
+    )
+
+  public updateTask = async (id: string, task: Omit<Optional<Task>, 'id'>) =>
+    database.then(db =>
+      db.tasks
+        .findOne(id)
+        .exec()
+        .then(val =>
+          val.update({
+            $set: {
+              ...baseTask,
+              ...task,
+              date: (task.date as Moment).toISOString(),
+            },
+          })
+        )
     )
 
   public removeTask = async (taskId: string) =>

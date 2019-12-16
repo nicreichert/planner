@@ -1,33 +1,74 @@
 import * as React from 'react'
-import { TouchableOpacity } from 'react-native'
-import { Icon, IconType, ModalWrapper, Row, ScreenWrapper } from '~planner/components'
-import { colors } from '~planner/constants'
+import { Alert, TouchableOpacity } from 'react-native'
+import {
+  BaseText,
+  DayButton,
+  Icon,
+  IconType,
+  MediumText,
+  ModalWrapper,
+  Row,
+  ScreenWrapper,
+} from '~planner/components'
+import { colors, weekDays } from '~planner/constants'
 import { taskContainer } from '~planner/data'
-import { useContainer, useToggle } from '~planner/hooks'
-import { Navigation, Task } from '~planner/types'
+import { useContainer } from '~planner/hooks'
+import { DayOfWeek, Navigation, RecurrencyType, Task } from '~planner/types'
 
 export const TaskDetails: React.FC<Navigation> = ({ navigation }) => {
-  const [isEditing, toggleEdit] = useToggle(false)
   const tasks = useContainer(taskContainer)
-  const task = navigation.getParam('task') as Task
+  const taskId = navigation.getParam('taskId') as string
+  const task = tasks.getTask(taskId) as Task
+
+  const handleDelete = () => {
+    Alert.alert('Are you sure you want to delete?', 'This action is not reversible.', [
+      {
+        text: 'No',
+      },
+      {
+        text: 'Yes',
+        onPress: () => {
+          tasks.removeTask(task.id)
+          navigation.goBack()
+        },
+      },
+    ])
+  }
+
+  const handleEdit = () => {
+    navigation.navigate('CreateTaskModal', { taskId, activeDay: task.date })
+  }
 
   return (
     <ModalWrapper title={task.name}>
       <ScreenWrapper>
         <Row mt={20} alignItems="center">
-          <TouchableOpacity
-            style={{ marginLeft: 'auto', marginRight: 10 }}
-            onPress={() => {
-              tasks.removeTask(task.id)
-              navigation.goBack()
-            }}
-          >
+          <MediumText>{task.description}</MediumText>
+          <TouchableOpacity style={{ marginLeft: 'auto', marginRight: 10 }} onPress={handleDelete}>
             <Icon type={IconType.TRASH} size={25} color={colors.primary} />
           </TouchableOpacity>
-          <TouchableOpacity onPress={toggleEdit}>
+          <TouchableOpacity onPress={handleEdit}>
             <Icon type={IconType.EDIT} size={25} color={colors.primary} />
           </TouchableOpacity>
         </Row>
+        {task.recurrencyType !== RecurrencyType.NONE ? (
+          <MediumText my={20}>Recurrency:</MediumText>
+        ) : null}
+        {task.recurrencyType === RecurrencyType.WEEK_DAYS ? (
+          <Row justifyContent="flex-start">
+            {weekDays.map(day => {
+              const dayOfWeek = day.substring(0, 3) as DayOfWeek
+              const selected = (task.recurrency as DayOfWeek[]).includes(dayOfWeek)
+              return (task.recurrency as DayOfWeek[]).includes(day.substring(0, 3) as DayOfWeek) ? (
+                <DayButton key={dayOfWeek} alt={selected} mr={10} disabled>
+                  <BaseText alt={selected}>{dayOfWeek}</BaseText>
+                </DayButton>
+              ) : null
+            })}
+          </Row>
+        ) : task.recurrencyType === RecurrencyType.TIMES_PER_WEEK ? (
+          <MediumText>{task.recurrency} times per week</MediumText>
+        ) : null}
       </ScreenWrapper>
     </ModalWrapper>
   )

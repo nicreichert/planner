@@ -35,10 +35,14 @@ export const Today: React.FC<Navigation> = ({ navigation }) => {
         onSwipeRight={() => handleChangeWeek(-1)}
       />
       <ScreenWrapper>
-        <MediumText>{isInPast(activeDay) ? 'What you did on' : 'Your plans for'}</MediumText>
-        <LargeText mb={20}>{activeDay.format('MMMM Do')}</LargeText>
+        <MediumText>{isInPast(activeDay) ? 'What I did on' : 'My plans for'}</MediumText>
+        <LargeText mb={20} bold>
+          {activeDay.format('MMMM Do')}
+        </LargeText>
         <TaskList
-          onOpenTaskDetails={(task: Task) => navigation.navigate('TaskDetailsModal', { task })}
+          onOpenTaskDetails={(task: Task) =>
+            navigation.navigate('TaskDetailsModal', { taskId: task.id })
+          }
           sections={createSections(selectTasksForDay(tasks.state.tasks, activeDay), activeDay)}
         />
       </ScreenWrapper>

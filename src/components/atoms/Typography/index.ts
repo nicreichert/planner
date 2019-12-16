@@ -5,12 +5,17 @@ import { colors } from '~planner/constants'
 
 interface Alt extends SpaceProps, TextAlignProps {
   alt?: boolean;
+  bold?: boolean;
 }
 
 export const BaseText = styled(Text)<Alt>`
   color: ${({ alt }) => (alt ? colors.white : colors.primaryText)};
   ${space};
   ${textAlign};
+  ${({ bold }) => bold && 'font-weight: bold'};
+  /* stylelint-disable font-family-no-missing-generic-family-keyword */
+  font-family: Roboto-Light;
+  /* stylelint-enable font-family-no-missing-generic-family-keyword */
 `
 
 export const SmallText = styled(BaseText)`
