@@ -9,6 +9,8 @@ export const database = new Promise<RxDB.RxDatabase>(resolve => {
     resolve(db as RxDB.RxDatabase)
   }
 
+  // RxDB.removeDatabase('myplannerdb', 'asyncstorage')
+
   RxDB.create({
     name: 'myplannerdb',
     adapter: 'asyncstorage',
@@ -22,6 +24,10 @@ export const database = new Promise<RxDB.RxDatabase>(resolve => {
       data.collection({
         name: 'groups',
         schema: require('./groups/schema.json'),
+      }),
+      data.collection({
+        name: 'notes',
+        schema: require('./notes/schema.json'),
       }),
     ]).then(() => {
       db = data

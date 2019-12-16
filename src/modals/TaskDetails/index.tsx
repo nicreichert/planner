@@ -1,3 +1,4 @@
+import { Moment } from 'moment'
 import * as React from 'react'
 import { Alert, TouchableOpacity } from 'react-native'
 import {
@@ -9,15 +10,18 @@ import {
   ModalWrapper,
   Row,
   ScreenWrapper,
+  SmallText,
 } from '~planner/components'
 import { colors, weekDays } from '~planner/constants'
 import { taskContainer } from '~planner/data'
 import { useContainer } from '~planner/hooks'
 import { DayOfWeek, Navigation, RecurrencyType, Task } from '~planner/types'
+import { EU_FORMAT } from '~planner/utils'
 
 export const TaskDetails: React.FC<Navigation> = ({ navigation }) => {
   const tasks = useContainer(taskContainer)
   const taskId = navigation.getParam('taskId') as string
+  const activeDay = navigation.getParam('activeDay') as Moment
   const task = tasks.getTask(taskId) as Task
 
   const handleDelete = () => {
@@ -51,9 +55,11 @@ export const TaskDetails: React.FC<Navigation> = ({ navigation }) => {
             <Icon type={IconType.EDIT} size={25} color={colors.primary} />
           </TouchableOpacity>
         </Row>
+
         {task.recurrencyType !== RecurrencyType.NONE ? (
           <MediumText my={20}>Recurrency:</MediumText>
         ) : null}
+
         {task.recurrencyType === RecurrencyType.WEEK_DAYS ? (
           <Row justifyContent="flex-start">
             {weekDays.map(day => {
@@ -69,6 +75,25 @@ export const TaskDetails: React.FC<Navigation> = ({ navigation }) => {
         ) : task.recurrencyType === RecurrencyType.TIMES_PER_WEEK ? (
           <MediumText>{task.recurrency} times per week</MediumText>
         ) : null}
+
+        <Row my={20} justifyContent="space-between">
+          <MediumText>Notes for {activeDay.format(EU_FORMAT)}:</MediumText>
+          <TouchableOpacity onPress={() => tasks.addNote(taskId, 'Test note', activeDay)}>
+            <Icon type={IconType.PLUS} size={25} color={colors.primary} />
+          </TouchableOpacity>
+        </Row>
+
+        {task.notes
+          .filter(note => note.date.isSame(activeDay, 'day'))
+          .map(note => (
+            <Row my={'5px'} key={note.id} justifyContent="space-between">
+              <SmallText>{note.text}</SmallText>
+
+              <TouchableOpacity style={{ marginLeft: 'auto', marginRight: 10 }}>
+                <Icon type={IconType.TRASH} size={25} color={colors.primary} />
+              </TouchableOpacity>
+            </Row>
+          ))}
       </ScreenWrapper>
     </ModalWrapper>
   )

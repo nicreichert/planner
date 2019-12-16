@@ -2,15 +2,23 @@ import moment, { Moment } from 'moment'
 import { Omit, Optional } from 'utility-types'
 import uuid from 'uuid'
 import { Container } from '~planner/hooks'
-import { RecurrencyType, Shift, Task, TaskNote } from '~planner/types'
+import { RawTask, RecurrencyType, Shift, Task, TaskNote } from '~planner/types'
+import { noteContainer } from '../notes'
 import { database } from '../setup'
 
-const mapTasks = (tasks: Task[]) =>
-  tasks.map(task => ({
-    ...task,
-    date: moment(task.date),
-    completed: task.completed.map(c => moment(c)),
-  }))
+const mapTask = (task: RawTask): Task => ({
+  ...task,
+  date: moment(task.date),
+  notes: noteContainer.getNotes(task.notes),
+  completed: task.completed.map(c => moment(c)),
+})
+
+const unmapTask = (task: Task): RawTask => ({
+  ...task,
+  date: (task.date as Moment).toISOString(),
+  completed: task.completed.map(c => (c as Moment).toISOString()),
+  notes: task.notes.map(n => n.id),
+})
 
 interface State {
   tasks: Task[]
@@ -36,8 +44,7 @@ export default class TaskContainer extends Container<State> {
 
     database
       .then(db => db.tasks.find().exec())
-      .then(items => items.map(i => i.get()))
-      .then(mapTasks)
+      .then(items => items.map(i => i.get()).map(mapTask))
       .then(tasks => this.setState({ tasks }))
 
     database.then(db => {
@@ -45,8 +52,7 @@ export default class TaskContainer extends Container<State> {
         db.tasks
           .find()
           .exec()
-          .then(items => items.map(i => i.get()))
-          .then(mapTasks)
+          .then(items => items.map(i => i.get()).map(mapTask))
           .then(tasks => this.setState({ tasks }))
       })
     })
@@ -56,12 +62,13 @@ export default class TaskContainer extends Container<State> {
 
   public addTask = async (task: Omit<Optional<Task>, 'id'>) =>
     database.then(db =>
-      db.tasks.insert({
-        id: uuid(),
-        ...baseTask,
-        ...task,
-        date: (task.date as Moment).toISOString(),
-      })
+      db.tasks.insert(
+        unmapTask({
+          ...baseTask,
+          ...task,
+          id: uuid(),
+        } as Task)
+      )
     )
 
   public updateTask = async (id: string, task: Omit<Optional<Task>, 'id'>) =>
@@ -71,11 +78,10 @@ export default class TaskContainer extends Container<State> {
         .exec()
         .then(val =>
           val.update({
-            $set: {
+            $set: unmapTask({
               ...baseTask,
               ...task,
-              date: (task.date as Moment).toISOString(),
-            },
+            } as Task),
           })
         )
     )
@@ -124,6 +130,22 @@ export default class TaskContainer extends Container<State> {
       this.completeTask(task, completion)
     }
   }
+
+  public addNote = async (taskId: string, text: string, date: Moment) =>
+    database.then(async db => {
+      const id = await noteContainer.addNote({ text, date })
+
+      return db.tasks
+        .findOne(taskId)
+        .exec()
+        .then(val =>
+          val.update({
+            $set: {
+              notes: [...val.get('notes'), id],
+            },
+          })
+        )
+    })
 }
 
 export const taskContainer = new TaskContainer()

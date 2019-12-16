@@ -17,36 +17,52 @@ export enum RecurrencyType {
 export type DayOfWeek = 'Sun' | 'Mon' | 'Tue' | 'Wed' | 'Thu' | 'Fri' | 'Sat'
 
 export interface Group {
-  description: string;
-  id: string;
-  name: string;
+  description: string
+  id: string
+  name: string
 }
 
 export interface TaskNote {
-  text: string;
-  date: Moment;
+  id: string
+  text: string
+  date: Moment
 }
 
 export interface Task {
-  completed: Moment[];
-  date: Moment;
-  description?: string;
-  groupId?: string[];
-  id: string;
-  name: string;
-  notes: TaskNote[];
-  recurrencyType: RecurrencyType;
-  recurrency?: DayOfWeek[] | number;
-  repetitions: number;
-  completedRepetitions: number;
-  shift: Shift;
+  completed: Moment[]
+  date: Moment
+  description?: string
+  groupId?: string[]
+  id: string
+  name: string
+  notes: TaskNote[]
+  recurrencyType: RecurrencyType
+  recurrency?: DayOfWeek[] | number
+  repetitions: number
+  completedRepetitions: number
+  shift: Shift
+}
+
+export interface RawTask {
+  completed: string[]
+  date: string
+  description?: string
+  groupId?: string[]
+  id: string
+  name: string
+  notes: string[]
+  recurrencyType: RecurrencyType
+  recurrency?: DayOfWeek[] | number
+  repetitions: number
+  completedRepetitions: number
+  shift: Shift
 }
 
 export interface AppData {
-  groups: Group[];
-  tasks: Task[];
+  groups: Group[]
+  tasks: Task[]
 }
 
 export interface Navigation {
-  navigation: NavigationScreenProp<NavigationState, NavigationParams>;
+  navigation: NavigationScreenProp<NavigationState, NavigationParams>
 }

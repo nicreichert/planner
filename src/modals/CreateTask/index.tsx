@@ -27,7 +27,7 @@ export const CreateTaskModal: React.FC<Navigation> = ({ navigation }) => {
   const [description, setDescription] = React.useState(task.description || '')
   const [repetitions, setRepetitions] = React.useState(task.repetitions || 1)
   const [shift, setShift] = React.useState<Shift>(task.shift || Shift.MORNING)
-  const [date, setDate] = React.useState(activeDay || moment())
+  const [date] = React.useState(activeDay || moment())
   const [recurrency, setRecurrency] = React.useState(
     task.recurrencyType === RecurrencyType.TIMES_PER_WEEK ? task.recurrency : 0
   )
@@ -54,7 +54,7 @@ export const CreateTaskModal: React.FC<Navigation> = ({ navigation }) => {
     }
 
     if (taskId) {
-      tasksContainer.updateTask(task.id, baseTask).then(() => navigation.goBack())
+      tasksContainer.updateTask(task.id, { ...task, ...baseTask }).then(() => navigation.goBack())
     } else {
       tasksContainer.addTask(baseTask).then(() => navigation.goBack())
     }

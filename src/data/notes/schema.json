@@ -1,0 +1,20 @@
+{
+  "title": "note schema",
+  "version": 0,
+  "description": "describes a note",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "primary": true
+    },
+    "text": {
+      "type": "string"
+    },
+    "date": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": ["id", "text", "date"]
+}

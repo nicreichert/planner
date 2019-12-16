@@ -41,7 +41,7 @@ export const Today: React.FC<Navigation> = ({ navigation }) => {
         </LargeText>
         <TaskList
           onOpenTaskDetails={(task: Task) =>
-            navigation.navigate('TaskDetailsModal', { taskId: task.id })
+            navigation.navigate('TaskDetailsModal', { taskId: task.id, activeDay })
           }
           sections={createSections(selectTasksForDay(tasks.state.tasks, activeDay), activeDay)}
         />
