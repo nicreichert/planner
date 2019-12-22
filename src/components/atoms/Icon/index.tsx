@@ -6,8 +6,8 @@ export { IconType } from './types'
 
 type IconKeys = keyof typeof Icons
 
-interface Props extends BaseProps {
-  type: IconType;
+export interface Props extends BaseProps {
+  type: IconType
 }
 
 export const Icon = ({ type, ...rest }: Props) => {

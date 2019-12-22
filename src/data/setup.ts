@@ -1,4 +1,6 @@
+import moment from 'moment'
 import * as RxDB from 'rxdb'
+import { HOUR_FORMAT } from '~planner/utils'
 
 RxDB.plugin(require('pouchdb-adapter-asyncstorage'))
 
@@ -20,6 +22,14 @@ export const database = new Promise<RxDB.RxDatabase>(resolve => {
       data.collection({
         name: 'tasks',
         schema: require('./tasks/schema.json'),
+        migrationStrategies: {
+          1: (oldDoc: { startTime: string; endTime: string }) => {
+            oldDoc.startTime = moment().format(HOUR_FORMAT)
+            oldDoc.endTime = moment().format(HOUR_FORMAT)
+
+            return oldDoc
+          },
+        },
       }),
       data.collection({
         name: 'groups',

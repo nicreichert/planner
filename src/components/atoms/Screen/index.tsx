@@ -17,10 +17,11 @@ const Wrapper = styled(View)`
   align-items: center;
   padding: 10px 20px 0;
   max-height: 50px;
+  min-height: 50px;
 `
 
 interface Props {
-  title?: string;
+  title?: string
 }
 
 export const ModalWrapper: React.FC<Props> = ({ children, title }) => {

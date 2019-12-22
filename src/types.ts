@@ -11,6 +11,7 @@ export enum Shift {
 export enum RecurrencyType {
   WEEK_DAYS = 'WEEK_DAYS',
   TIMES_PER_WEEK = 'TIMES_PER_WEEK',
+  MONTHLY = 'MONTHLY',
   NONE = 'NONE',
 }
 
@@ -31,13 +32,15 @@ export interface TaskNote {
 export interface Task {
   completed: Moment[]
   date: Moment
+  startTime: Moment
+  endTime: Moment
   description?: string
   groupId?: string[]
   id: string
   name: string
   notes: TaskNote[]
   recurrencyType: RecurrencyType
-  recurrency?: DayOfWeek[] | number
+  recurrency?: DayOfWeek[] | number | number[]
   repetitions: number
   completedRepetitions: number
   shift: Shift
@@ -46,13 +49,15 @@ export interface Task {
 export interface RawTask {
   completed: string[]
   date: string
+  startTime: string
+  endTime: string
   description?: string
   groupId?: string[]
   id: string
   name: string
   notes: string[]
   recurrencyType: RecurrencyType
-  recurrency?: DayOfWeek[] | number
+  recurrency?: DayOfWeek[] | number | number[]
   repetitions: number
   completedRepetitions: number
   shift: Shift

@@ -6,6 +6,7 @@ import { space, SpaceProps } from 'styled-system'
 import { SmallText } from '~planner/components'
 import { colors } from '~planner/constants'
 import { Checkbox, CheckboxInterface } from './components/Checkbox'
+import { DatePicker, DatePickerInterface } from './components/DatePicker'
 import { NumberInput, NumberInterface } from './components/Number'
 import { Picker, PickerInterface } from './components/Picker'
 import { Text, TextInterface } from './components/Text'
@@ -34,11 +35,16 @@ const Spacer = styled(View)<SpaceProps>`
   ${space};
 `
 
-type InputTypes = TextInterface | PickerInterface | CheckboxInterface | NumberInterface
+type InputTypes =
+  | TextInterface
+  | PickerInterface
+  | CheckboxInterface
+  | NumberInterface
+  | DatePickerInterface
 
 interface BaseProps extends SpaceProps {
-  type: InputType;
-  label?: string;
+  type: InputType
+  label?: string
 }
 
 type Props = InputTypes & BaseProps
@@ -49,6 +55,15 @@ export const Input: React.FC<Props> = ({ type, label, ...rest }) => {
       <Spacer {...(rest as SpaceProps)}>
         <Checkbox {...(rest as CheckBoxProps)} />
       </Spacer>
+    )
+  }
+
+  if (type === InputType.DATE_PICKER) {
+    return (
+      <>
+        {label ? <SmallText>{label}</SmallText> : null}
+        <DatePicker {...(rest as DatePickerInterface)} />
+      </>
     )
   }
 

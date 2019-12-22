@@ -1,6 +1,6 @@
 {
   "title": "task schema",
-  "version": 0,
+  "version": 1,
   "description": "describes a task",
   "type": "object",
   "properties": {
@@ -24,6 +24,14 @@
       "type": "string",
       "format": "date-time"
     },
+    "startTime": {
+      "type": "string",
+      "format": "time"
+    },
+    "endTime": {
+      "type": "string",
+      "format": "time"
+    },
     "groupId": {
       "type": "array",
       "items": {
@@ -42,7 +50,7 @@
     "recurrency": {
       "type": ["number", "array"],
       "items": {
-        "type": "string"
+        "type": ["string", "number"]
       }
     },
     "repetitions": {

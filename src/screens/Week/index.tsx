@@ -1,5 +1,6 @@
 import moment from 'moment'
 import * as React from 'react'
+import { View } from 'react-native'
 import { AddTaskButton, Controller, LargeText, ScreenWrapper, TaskList } from '~planner/components'
 import { taskContainer } from '~planner/data'
 import { useContainer } from '~planner/hooks'
@@ -21,14 +22,12 @@ export const Week: React.FC<Navigation> = ({ navigation }) => {
       </Controller>
       <ScreenWrapper>
         <TaskList
-          onOpenTaskDetails={
-            () => null
-            // navigation.navigate('TaskDetailsModal', { taskId: task.id })
-          }
+          onOpenTaskDetails={() => null}
           sections={createSections(weekDelta, tasks.state.tasks)}
         />
+        <View style={{ height: 60 }} />
       </ScreenWrapper>
-      <AddTaskButton onPress={() => navigation.navigate('CreateTaskModal', { activeDay })} />
+      <AddTaskButton activeDay={activeDay} />
     </>
   )
 }

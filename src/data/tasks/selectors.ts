@@ -17,6 +17,11 @@ export const filterTasksWithRecurrency = (day: Moment) => (task: Task) => {
         Boolean(task.completed.find(c => c.isSame(day, 'day')))) &&
       day.diff(task.date, 'day') >= 0
     )
+  } else if (task.recurrencyType === 'MONTHLY') {
+    return (
+      (task.recurrency as number[]).includes(parseInt(day.format('DD'))) &&
+      day.diff(task.date, 'day') >= 0
+    )
   }
   return task.date.isSame(day, 'day')
 }
@@ -32,20 +37,36 @@ export const filterTasksForWeek = (day: Moment) => (task: Task) =>
  * Sorts
  */
 const sortByCompletion = (day: Moment) => (taskA: Task, taskB: Task) => {
-  if (taskA.completed.find(c => c.isSame(day, 'day'))) {
-    return taskB.date.diff(taskA.date, 'second') < 0 &&
-      taskB.completed.find(c => c.isSame(day, 'day'))
-      ? 0
-      : -1
+  if (
+    taskA.completed.find(c => c.isSame(day, 'day')) &&
+    !taskB.completed.find(c => c.isSame(day, 'day'))
+  ) {
+    return -1
+  } else if (
+    taskB.completed.find(c => c.isSame(day, 'day')) &&
+    !taskA.completed.find(c => c.isSame(day, 'day'))
+  ) {
+    return 1
   }
-  return 1
+  return 0
+}
+
+const sortByStartTime = (taskA: Task, taskB: Task) => {
+  if (taskA.startTime.diff(taskB.startTime, 'minutes') > 0) {
+    return 1
+  } else if (taskB.startTime.diff(taskA.startTime, 'minutes') > 0) {
+    return -1
+  }
+  return 0
 }
 
 /**
  * Selectors
  */
 export const selectTasksForDay = (tasks: Task[], day: Moment) =>
-  combineFilters(filterTasksWithRecurrency(day))(tasks).sort(sortByCompletion(day))
+  combineFilters(filterTasksWithRecurrency(day))(tasks)
+    .sort(sortByStartTime)
+    .sort(sortByCompletion(day))
 
 export const selectTasksForWeek = (tasks: Task[], day: Moment) =>
   combineFilters(filterTasksForWeek(day), filterRecurrentTasks)(tasks)

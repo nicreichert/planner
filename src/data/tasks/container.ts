@@ -3,6 +3,7 @@ import { Omit, Optional } from 'utility-types'
 import uuid from 'uuid'
 import { Container } from '~planner/hooks'
 import { RawTask, RecurrencyType, Shift, Task, TaskNote } from '~planner/types'
+import { HOUR_FORMAT } from '~planner/utils'
 import { noteContainer } from '../notes'
 import { database } from '../setup'
 
@@ -11,6 +12,14 @@ const mapTask = (task: RawTask): Task => ({
   date: moment(task.date),
   notes: noteContainer.getNotes(task.notes),
   completed: task.completed.map(c => moment(c)),
+  startTime: moment().set({
+    hour: parseInt(task.startTime.split(':')[0]),
+    minute: parseInt(task.startTime.split(':')[1]),
+  }),
+  endTime: moment().set({
+    hour: parseInt(task.endTime.split(':')[0]),
+    minute: parseInt(task.endTime.split(':')[1]),
+  }),
 })
 
 const unmapTask = (task: Task): RawTask => ({
@@ -18,6 +27,8 @@ const unmapTask = (task: Task): RawTask => ({
   date: (task.date as Moment).toISOString(),
   completed: task.completed.map(c => (c as Moment).toISOString()),
   notes: task.notes.map(n => n.id),
+  startTime: task.startTime.format(HOUR_FORMAT),
+  endTime: task.endTime.format(HOUR_FORMAT),
 })
 
 interface State {
@@ -27,6 +38,8 @@ interface State {
 const baseTask: Omit<Task, 'id' | 'name' | 'date'> = {
   completed: [] as Moment[],
   notes: [] as TaskNote[],
+  startTime: moment(),
+  endTime: moment(),
   repetitions: 0,
   completedRepetitions: 0,
   shift: Shift.MORNING,

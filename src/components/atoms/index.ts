@@ -1,5 +1,6 @@
 export * from './AddTaskButton'
 export * from './Button'
+export * from './ButtonIcon'
 export * from './DayButton'
 export * from './Header'
 export * from './Icon'
