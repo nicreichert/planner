@@ -37,7 +37,7 @@ export const getShiftForTime = (time: Moment) => {
 
   if (hour < 12) {
     return Shift.MORNING
-  } else if (hour < 19) {
+  } else if (hour < 18) {
     return Shift.AFTERNOON
   }
   return Shift.EVENING

@@ -28,8 +28,12 @@ export const CreateTaskModal: React.FC<Navigation> = ({ navigation }) => {
   const [name, setName] = React.useState(task.name || '')
   const [description, setDescription] = React.useState(task.description || '')
   const [repetitions, setRepetitions] = React.useState(task.repetitions || 1)
-  const [startTime, setStartTime] = React.useState<Date | undefined>(new Date())
-  const [endTime, setEndTime] = React.useState<Date | undefined>(new Date())
+  const [startTime, setStartTime] = React.useState<Date | undefined>(
+    task.startTime ? new Date(task.startTime.toISOString()) : new Date()
+  )
+  const [endTime, setEndTime] = React.useState<Date | undefined>(
+    task.endTime ? new Date(task.endTime.toISOString()) : new Date()
+  )
   const [date] = React.useState(activeDay || moment())
   const [recurrency, setRecurrency] = React.useState(
     task.recurrencyType === RecurrencyType.TIMES_PER_WEEK ? task.recurrency : 0
@@ -47,7 +51,7 @@ export const CreateTaskModal: React.FC<Navigation> = ({ navigation }) => {
   const getRecurrency = () => {
     if (recurrencyType === RecurrencyType.WEEK_DAYS) {
       return daysRecurrency
-    } else if (task.recurrencyType === RecurrencyType.MONTHLY) {
+    } else if (recurrencyType === RecurrencyType.MONTHLY) {
       return monthlyRecurrency
     }
     return recurrency

@@ -16,8 +16,7 @@ import { taskContainer } from '~planner/data'
 import { useContainer } from '~planner/hooks'
 import { Navigation } from '~planner/types'
 import { getDeltaWeeksFromDate, getWeek, isInPast } from '~planner/utils'
-import { Calendar } from './views/Calendar'
-import { List } from './views/List'
+import { Calendar, List } from './views'
 
 type ViewType = 'LIST' | 'CALENDAR'
 
@@ -30,7 +29,7 @@ const TABS = [
   },
 ]
 
-export const Today: React.FC<Navigation> = ({ navigation }) => {
+export const Today: React.FC<Navigation> = () => {
   const tasks = useContainer(taskContainer)
   const [currentView, setCurrentView] = React.useState<ViewType>('LIST')
   const [currentWeek, setCurrentWeek] = React.useState(getWeek())

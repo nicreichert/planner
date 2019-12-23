@@ -25,7 +25,9 @@ export const Task = ({ activeDay, onOpenDetails, onToggleComplete, task }: Props
         m={'0 10px'}
       />
       <View>
-        <SmallText>{task.startTime.format('HH:mm')}</SmallText>
+        <SmallText>
+          {task.startTime.format('HH:mm')} - {task.endTime.format('HH:mm')}
+        </SmallText>
         <BaseText>{task.name}</BaseText>
       </View>
       <View style={{ marginLeft: 'auto', marginRight: 10 }}>
